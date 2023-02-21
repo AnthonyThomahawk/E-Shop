@@ -1,3 +1,5 @@
 # E-Shop
-WIP.
-Εργασια ειδικα θεματα τεχνολογιας λογισμικου
+Work in progress.
+
+# Trello board :
+https://trello.com/b/qMARZoNO/scrum-board
