@@ -6,6 +6,10 @@
 <header>
     <img src={Icon} alt="Main icon">
     <h1>{title}</h1>
+    <nav style="padding-left:20px;">
+        <a href="/" style="color:#fff">home</a>
+        <a href="/about" style="color:#fff">about</a>
+    </nav>
 </header>
 
 <style>
@@ -15,7 +19,7 @@
         padding-right:10px;
     }
     header {
-        font-size: 75%;
+        font-size: 165%;
         position: absolute;
         top: 0;
         left: 0;
@@ -25,7 +29,7 @@
         align-items: center;
         background-color: #333;
         color: #fff;
-        height: 64px;
+        height: 100px;
         padding: 0 16px;
     }
 
