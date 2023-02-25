@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@sveltejs/adapter-static": "^2.0.1",
+    "cors": "^2.8.5",
     "svelte-routing": "^1.6.0"
   }
 }
