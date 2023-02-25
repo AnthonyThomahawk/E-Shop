@@ -3,6 +3,7 @@
 
     export let ItemName = "Item name";
     export let ItemPrice = "Price";
+    export let ItemID = 0;
     export let imagePath = ""; // pass either a path to a local image, or a URL in the WWW
     export let imageLink = "";
     let imageSrc = "";
@@ -28,7 +29,7 @@
     <h1>{ItemName}</h1>
     <h2>Price: {ItemPrice}</h2>
     <img src={imageSrc} alt="" style="width:128px; height:128px; padding-bottom: 10px"/>
-    <button>Buy now!</button>
+    <a href="/AllItems/{ItemID}">Buy now!</a>
 </div>
 
 <style>
