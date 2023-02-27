@@ -8,7 +8,7 @@
     <h1>{title}</h1>
     <nav style="padding-left:20px;">
         <a href="/" style="color:#fff">home</a>
-        <a href="/AllItems" style="color:#fff">all items</a>
+        <a href="/Products" style="color:#fff">products</a>
         <a href="/about" style="color:#fff">about</a>
     </nav>
 </header>

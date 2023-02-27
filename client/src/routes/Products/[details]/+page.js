@@ -2,7 +2,7 @@
 export function load({ params }) {
     return {
         post: {
-            id: `${params.ProductID}`
+            id: `${params.details}`
         }
     };
 }
