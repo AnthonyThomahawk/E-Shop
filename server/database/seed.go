@@ -96,6 +96,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Η κοιλάδα Dimbula παράγει γευστικά τσάγια τους 4 πρώτους μήνες του χρόνου όταν ο καιρός είναι κρύος και ξηρός. Ένα πλούσιο σε άρωμα τσάι με κεχριμπαρένιο χρώμα που συνδυάζεται όμορφα με γάλα. Είναι μοναδικής προέλευσης από την Σρι Λανκα (περιοχή Dimbula).",
 			Price:           2.10,
 			Stock:           50000,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      blackID,
@@ -105,6 +106,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Από φυτά μεγαλωμένα στις χαμηλές δυτικές πλαγιές του νησιού, που συνορεύει με το τροπικό δάσος Sinharaja. Τσάι με χάλκινο χρώμα, τολμηρή και έντονη γεύση. Συνδυάζεται ιδανικά με μέλι. Ένα τσάι μοναδικής προέλευσης από την Σρί Λάνκα (περιοχή Deniyaya).",
 			Price:           2.80,
 			Stock:           400,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      blackID,
@@ -114,6 +116,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "H μοναδικότητα του χώματος στη νότια Σρι Λάνκα προσφέρει ένα τσάι με σκούρο φύλλο, ένταση και χρώμα στην κούπα.",
 			Price:           2.10,
 			Stock:           2000,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      blackID,
@@ -123,6 +126,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Επιλεγμένα φύλλα τσαγιού, από την φυτεία Loolecondera, την 1η της Κευλάνης από το 1867. Ένα τσάι με σκούρο και γεμάτο σώμα, γεύση βύνης και φρούτων και γλυκό άρωμα. Προτείνεται για πρωινό τσάι με μία σταγόνα γάλα. Μοναδικής προέλευσης από την Σρί Λάνκα!",
 			Price:           2.10,
 			Stock:           150,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      blackID,
@@ -132,6 +136,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Η πλούσια γεύση του τσαγιού από την περιοχή Dimbula συνδυασμένη, από τους γευσιγνώστες της Mlesna, με την φωτεινότητα του τσαγιού από την Nuwara Eliya, προσφέρουν το ιδανικό English Breakfast. Ανώτερης ποιότητας έντονο τσάι για το πρώι που μπορεί να συνδυαστεί με γάλα.",
 			Price:           2.10,
 			Stock:           300,
+			ImageURL:        "",
 		},
 		// Green tea
 		{
@@ -142,6 +147,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Η ποικιλία πράσινου τσαγιού Young Hyson παρασκευάζεται σύμφωνα με αρχαίες Κινέζικες μεθόδους από φυτά που μεγαλώνουν σε μεγάλα υψόμετρα. Είναι 100% τσάι Κεϋλάνης. Διαθέσιμο και σε μεταλλικό κουτί 100γρ.",
 			Price:           2.20,
 			Stock:           4000,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      greenID,
@@ -151,6 +157,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Το πιο γνωστό γιαπωνέζικο τσάι με την ελαφρώς στυφή γεύση. Ιδανικό για να συνοδεύει ελαφριά γεύματα. Διαθέσιμο και σε μεταλλικό κουτί 100γρ.",
 			Price:           2.20,
 			Stock:           50,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      greenID,
@@ -160,6 +167,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Το φύλλο στρίβεται με υψηλή πίεση σε μικρά ασημοπράσινα μπαλάκια. Έχει δυνατή, ελαφρώς καπνιστή γεύση. Διαθέσιμο και σε μεταλλικό κουτί 100γρ.",
 			Price:           2.20,
 			Stock:           300,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      greenID,
@@ -169,6 +177,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Τα φύλλα του τσαγιού μαζεύονται νωρίς το πρωί στην κοιλάδα Dumbara προσφέροντας ως αποτέλεσμα ένα μαλακό και γλυκό τσάι, ιδανικό για όλη την ημέρα. Διαθέσιμο και σε μεταλλικό κουτί 100γρ.",
 			Price:           3.40,
 			Stock:           600,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      greenID,
@@ -178,6 +187,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Είναι γνωστό και ως «Σαλιγκάρια από Νεφρίτη». Με απαλό, φωτεινό πράσινο χρώμα στην κούπα και γεύση που βγάζει αρώματα, φρούτα και μία ελαφριά γλυκιά επίγευση. Διαθέσιμο και σε μεταλλικό κουτί 50γρ.",
 			Price:           6.10,
 			Stock:           1200,
+			ImageURL:        "",
 		},
 		// White tea
 		{
@@ -188,6 +198,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Οι ασημένιες κλειστές κορυφές του φυτού προσφέρουν μία εμπειρία που αλλάζει ανάλογα με τον χρόνο παραμονής στο νερό. Υψηλής ποιότητας μπουμπούκια φύλλων, από φυτείες τσαγιού στην Σρι Λάνκα, μαζεύονται με το χέρι μόλις βγούν.",
 			Price:           13.60,
 			Stock:           3000,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -197,6 +208,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Οι ασημένιες βελονίτσες του Camelia Sinensis, μαζεμένες νωρίς το πρωί, προσφέρουν μία γευστική κούπα τσαγιού. Μπουμπούκια φύλλών τσαγιού από φυτά που μεγαλώνουν στην Κίνα, μαζεμένα ένα-ένα με το χέρι.",
 			Price:           9.00,
 			Stock:           550,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -206,6 +218,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Χειροποίητα στριμμένα φυλλαράκια τσαγιού από την Σρι Λάνκα με ένα λουλούδι γιασεμιού στο εσωτερικό. Παράγεται κάθε Άνοιξη όταν ανθίσουν τα γιασεμιά. Απλά μοναδικό.",
 			Price:           12.00,
 			Stock:           1300,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -215,6 +228,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Ακατέργαστο λευκό τσάι από την Σρι Λάνκα με φυσικό αιθέριο έλαιο λεμονιού. Με υπόξινη επίγευση.",
 			Price:           4.00,
 			Stock:           600,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -224,6 +238,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Ακατέργαστο λευκό τσάι από την Σρι Λάνκα με φυσικό αιθέριο έλαιο λευκού ροδάκινου.. Με γλυκιά επίγευση.",
 			Price:           4.00,
 			Stock:           950,
+			ImageURL:        "",
 		},
 		// Oolong tea
 		{
@@ -234,6 +249,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Τσάι oolong συνδυασμένο με λουλούδια καλέντουλας και καλαμποκιού. Ιδανικό για όλη την ημέρα.",
 			Price:           3.00,
 			Stock:           3500,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -243,6 +259,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Τσάι υψηλής ζύμωσης, που αιωρείται μεταξύ πράσινου και μαύρου. Έχει γήινη γεύση και έντονα χαρακτηριστικά.",
 			Price:           2.70,
 			Stock:           450,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -252,6 +269,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Μία ξεχωριστή γεύση. Τσάι oolong ειδικά επεξεργασμένο με γάλα για να αποκτήσει κρεμώδη και πλούσια γεύση. Απλά μοναδικό. (περιέχει λακτόζη).",
 			Price:           5.90,
 			Stock:           1700,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -261,6 +279,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Ποιοτικό τσάι χαμηλής ζύμωσης, ελαφρύ. Διαθέτει πλούσια αρώματα και αποτελεί δείγμα της ποιότητας των τσαγιών της Mlesna.",
 			Price:           3.50,
 			Stock:           800,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      whiteID,
@@ -270,6 +289,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Ποιοτικό χαμηλής ζύμωσης oolong της Ταϊβάν. Γευστικό και έντονα αρωματικό με ιδιαίτερο πράσινο χρώμα.",
 			Price:           4.90,
 			Stock:           950,
+			ImageURL:        "",
 		},
 		// Rooibos tea
 		{
@@ -280,6 +300,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Βιολογικό κόκκινο τσάι από την Ν. Αφρική. Πίνεται ευχάριστα με μέλι και γάλα. Είναι πλούσιο σε Βιταμίνη C και χωρίς καφεΐνη.",
 			Price:           2.50,
 			Stock:           3900,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      rooibosID,
@@ -289,6 +310,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Rooibos από την Νότια Αφρική από την Νότια Αφρική με κομμάτια σοκολάτας (ζάχαρη, κακαόμαζα, βούτυρο κακάο, σκόνη κακάο, λεκιθίνη Ε322, βανίλια), μήλο και flakes καρύδας. Χωρίς καφεΐνη.",
 			Price:           2.70,
 			Stock:           7450,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      rooibosID,
@@ -298,6 +320,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Rooibos Νότιας Αφρικής, λεμονόχορτο, τσιπς μπανάνας (μπανάνα, λάδι καρύδας, ζάχαρη, άρωμα) τσίλι, φλούδες και λουλούδια πορτοκαλιού, άρωμα. Χωρίς καφεΐνη.",
 			Price:           2.70,
 			Stock:           0,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      rooibosID,
@@ -307,6 +330,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Κόκκινο τσάι με κομμάτια μήλου, πέταλα τριαντάφυλλου και βανίλια. Χωρίς καφεΐνη.",
 			Price:           2.70,
 			Stock:           1300,
+			ImageURL:        "",
 		},
 		{
 			CategoryID:      rooibosID,
@@ -316,6 +340,7 @@ func seedProducts(db *gorm.DB) error {
 			Characteristics: "Κόκκινο τσάι με κομμάτια πικραμύγδαλου, σταφίδες και άρωμα ρούμι. Χωρίς καφεΐνη.",
 			Price:           2.70,
 			Stock:           16000,
+			ImageURL:        "",
 		},
 	}
 
