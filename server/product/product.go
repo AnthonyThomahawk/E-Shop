@@ -11,6 +11,7 @@ type Product struct {
 	Characteristics string
 	Price           float64 // Price for 50 grams
 	Stock           int64   // Stock in gramms
+	ImageURL        string
 
 	// TODO: Second iteration
 	// AvgRating       *float32
