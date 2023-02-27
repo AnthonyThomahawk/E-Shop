@@ -19,13 +19,13 @@ func (repo *ProductRepoGORM) Details(id uint) (product.Product, error) {
 	return prd, err
 }
 
-func (repo *ProductRepoGORM) List() ([]product.Product, error) {
+func (repo *ProductRepoGORM) List(page, pageSize int) ([]product.Product, error) {
 	var prds []product.Product
-	err := repo.db.Model(&product.Product{}).Preload("Category").Find(&prds).Error
+	err := repo.db.Scopes(paginate(page, pageSize)).Find(&prds).Error
 	return prds, err
 }
 
-// TODO: implement upsert
+// TODO: implement upsert??
 func (repo *ProductRepoGORM) Insert(prd product.Product) error {
 	return repo.db.Create(prd).Error
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 const ProductsPath = "products"
@@ -16,19 +17,7 @@ type productService struct {
 func (svc *productService) handleProducts(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		products, err := (*svc.repo).List() //getProductList()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			return
-		}
-		j, err := json.Marshal(products)
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = w.Write(j)
-		if err != nil {
-			log.Fatal(err)
-		}
+		svc.getProducts(w, r)
 	case http.MethodPost:
 		//TODO:
 		return
@@ -36,6 +25,44 @@ func (svc *productService) handleProducts(w http.ResponseWriter, r *http.Request
 		return
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
+	q := r.URL.Query()
+	page, err := strconv.Atoi(q.Get("page"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	if page == 0 {
+		page = 1
+	}
+
+	pageSize, err := strconv.Atoi(q.Get("page_size"))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	switch {
+	case pageSize > 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
+	}
+
+	products, err := (*svc.repo).List(page, pageSize) //getProductList()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	j, err := json.Marshal(products)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = w.Write(j)
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
