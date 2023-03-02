@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/AnthonyThomahawk/E-Shop/server/cors"
 )
 
 const ProductsPath = "products"
@@ -70,6 +72,6 @@ func SetupRoutes(apiBasePath string, repo ProductRepo) {
 	service := productService{repo: &repo}
 
 	productsHandler := http.HandlerFunc(service.handleProducts)
-	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), productsHandler)
+	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), cors.Middleware(productsHandler))
 	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath);
 }
