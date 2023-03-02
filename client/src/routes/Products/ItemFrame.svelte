@@ -1,5 +1,5 @@
-<script>
-    import {onMount} from "svelte";
+<script lang="ts">
+    import { onMount } from "svelte";
 
     export let ItemName = "Item name";
     export let ItemPrice = "Price";

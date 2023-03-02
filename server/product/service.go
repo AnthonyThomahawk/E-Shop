@@ -71,4 +71,5 @@ func SetupRoutes(apiBasePath string, repo ProductRepo) {
 
 	productsHandler := http.HandlerFunc(service.handleProducts)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), productsHandler)
+	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath);
 }
