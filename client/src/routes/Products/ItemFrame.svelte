@@ -26,8 +26,8 @@
 </script>
 
 <div>
-    <h1>{ItemName}</h1>
-    <h2>Price: {ItemPrice}</h2>
+    <h2>{ItemName}</h2>
+    <h3>Price: {ItemPrice}</h3>
     <img src={imageSrc} alt="" style="width:128px; height:128px; padding-bottom: 10px"/>
     <a href="/Products/{ItemID}">Buy now!</a>
 </div>
@@ -39,8 +39,9 @@
         justify-content:center;
         align-items: center;
         border: 2px solid black;
-        border-radius:5%;
+        border-radius:2%;
         width:300px;
         padding:10px;
+        white-space: nowrap;
     }
 </style>
