@@ -5,7 +5,7 @@ type Category struct {
 	Description string
 	Label       string
 
-	Products []Product `gorm:"-"`
+	Products []Product `gorm:"-" json:"-"`
 }
 
 

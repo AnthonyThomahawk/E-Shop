@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type Product struct {
 	gorm.Model
 	CategoryID      uint
-	SKU             string
+	SKU             string `gorm:"uniqueIndex"`
 	Label           string
 	Description     string
 	Characteristics string
@@ -13,7 +13,7 @@ type Product struct {
 	Stock           int64   // Stock in gramms
 	ImageURL        string
 
-	Category Category `gorm:"-"`
+	Category Category `gorm:"-" json:"-"`
 }
 
 type ProductRepo interface {
