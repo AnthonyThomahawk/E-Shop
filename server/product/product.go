@@ -17,7 +17,7 @@ type Product struct {
 }
 
 type ProductRepo interface {
-	// Details(id uint) (Product, error)
+	Details(id int) (Product, error)
 	List(page, pageSize int, categoryID *int) ([]Product, error)
 	// Upsert(id uint) error
 	// Delete(id uint) error

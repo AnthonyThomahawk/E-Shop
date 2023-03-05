@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/AnthonyThomahawk/E-Shop/server/cors"
 )
@@ -29,6 +30,49 @@ func (svc *productService) handleProducts(w http.ResponseWriter, r *http.Request
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
+func (svc *productService) handleProduct(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		svc.getProduct(w, r)
+	case http.MethodPost:
+		//TODO:
+		return
+	case http.MethodOptions:
+		return
+	default:
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+
+func (svc *productService) getProduct(w http.ResponseWriter, r *http.Request) {
+	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", ProductsPath))
+	if len(urlPathSegments[1:]) > 1 {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	productID, err := strconv.Atoi(urlPathSegments[len(urlPathSegments)-1])
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	products, err := (*svc.repo).Details(productID) //getProductList()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	j, err := json.Marshal(products)
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = w.Write(j)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 
 func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 	queries := r.URL.Query()
@@ -83,6 +127,8 @@ func SetupProductRoutes(apiBasePath string, repo ProductRepo) {
 	service := productService{repo: &repo}
 
 	productsHandler := http.HandlerFunc(service.handleProducts)
+	productHandler := http.HandlerFunc(service.handleProduct)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), cors.Middleware(productsHandler))
+	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, ProductsPath), cors.Middleware(productHandler))
 	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath)
 }

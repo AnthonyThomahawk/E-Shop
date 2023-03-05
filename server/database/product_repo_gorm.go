@@ -13,9 +13,9 @@ func NewProductRepo(db *gorm.DB) *ProductRepoGORM {
 	return &ProductRepoGORM{db: db}
 }
 
-func (repo *ProductRepoGORM) Details(id uint) (product.Product, error) {
+func (repo *ProductRepoGORM) Details(id int) (product.Product, error) {
 	var prd product.Product
-	err := repo.db.Model(&product.Product{}).First(&prd).Error
+	err := repo.db.Model(&product.Product{}).First(&prd, id).Error
 	return prd, err
 }
 

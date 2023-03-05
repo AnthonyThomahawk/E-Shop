@@ -16,6 +16,10 @@ func Setup(dataSourceName string) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	err = db.AutoMigrate(&product.Category{})
+	if err != nil {
+		return nil, err
+	}
 
 	err = SeedData(db)
 	if err != nil {
