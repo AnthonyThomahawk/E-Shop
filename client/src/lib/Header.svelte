@@ -1,6 +1,6 @@
 <script>
-    export let title = "E-Shop";
-    import Icon from '../assets/store-icon.svg'
+    export let title = "World of tea";
+    import Icon from '../assets/TeaIcon.png'
 </script>
 
 <header>
@@ -8,6 +8,7 @@
     <h1>{title}</h1>
     <nav style="padding-left:20px;">
         <a href="/" style="color:#fff">home</a>
+        <a href="/Categories" style="color:#fff">categories</a>
         <a href="/Products" style="color:#fff">products</a>
         <a href="/about" style="color:#fff">about</a>
     </nav>

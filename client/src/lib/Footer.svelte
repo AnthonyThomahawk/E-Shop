@@ -1,5 +1,5 @@
 <footer>
-    <p>2023 E-Shop - Antonis Thomakos, Panagiotis Skiadas</p>
+    <p>2023 World of tea - Antonis Thomakos, Panagiotis Skiadas</p>
 </footer>
 
 <style>
