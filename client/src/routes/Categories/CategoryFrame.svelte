@@ -19,9 +19,9 @@
         align-items: center;
         border: 2px solid black;
         border-radius:2%;
-        width:330px;
-        height:330px;
+        width:250px;
+        height:250px;
         padding:10px;
-        white-space: nowrap;
+        text-align: justify;
     }
 </style>

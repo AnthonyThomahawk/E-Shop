@@ -1,13 +1,16 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {getProducts} from "../../../lib/Products";
+    import {getProductDetails, getProducts} from "../../../lib/Products";
     import DynamicImage from "../../../lib/DynamicImage.svelte";
     import ShoppingCart from "../Images/shoppingCart.png"
+    import PageData = App.PageData;
 
-    /** @type {import('./$types').PageData} */
-    export let data;
+    export let data: PageData;
+
+    let TargetProductID = data.post.id;
 
     interface IProduct {
+        ID: number;
         CategoryID: number;
         SKU: string;
         Label: string;
@@ -18,11 +21,12 @@
         ImageURL: string;
     }
 
-    let products: Array<IProduct> = [];
+    let product: IProduct;
     onMount(async () => {
-        const res = await getProducts(1, 5);
+        const res = await getProductDetails(TargetProductID);
 
-        products = res.map((item: any) => ({
+        product = res.map((item: any) => ({
+            ID : item.ID,
             CategoryID: item.CategoryID,
             SKU: item.SKU,
             Label: item.Label,
@@ -37,38 +41,33 @@
     let itemCount = 0;
 </script>
 
-<!--temporary code until getProductFromSKU() is implemented-->
-{#each products as product}
-    {#if product.SKU === data.post.id}
-        <div class="flex-div">
-            <h1>{product.Label}</h1>
-            <h2>{product.Description}</h2>
-            <div style="display: flex; flex-direction: row; align-items: start; position: relative;">
-                <DynamicImage imageHeight=400 imageWidth=400 imageLink="{product.ImageURL}"/>
-                <div style="padding-right: 50px;"></div>
-                <div style="display: flex; flex-direction: column; position: relative;">
-                    <h3>{product.Characteristics}</h3>
-                    <h3><b>Current stock : {product.Stock}</b></h3>
-                    <div style="padding-bottom: 25px;"></div>
-                    <div style="display: flex; flex-direction: row;">
-                        <div style="display: flex; flex-direction: column;">
-                            Quantity:
-                            <input type=number bind:value={itemCount} min=0 max={product.Stock}>
-                        </div>
-                        <div style="padding-right: 30px;"></div>
-                        <button style="width:130px;height:50px;">
-                            <div class="centered-div">
-                                Add to cart
-                                <div style="padding-right: 5px;"></div>
-                                <DynamicImage imageHeight=25 imageWidth=25 imagePath="{ShoppingCart}"/>
-                            </div>
-                        </button>
-                    </div>
+<div class="flex-div">
+    <h1>{product.Label}</h1>
+    <h2>{product.Description}</h2>
+    <div style="display: flex; flex-direction: row; align-items: start; position: relative;">
+        <DynamicImage imageHeight=400 imageWidth=400 imageLink="{product.ImageURL}"/>
+        <div style="padding-right: 50px;"></div>
+        <div style="display: flex; flex-direction: column; position: relative;">
+            <h3>{product.Characteristics}</h3>
+            <h3><b>Current stock : {product.Stock}</b></h3>
+            <div style="padding-bottom: 25px;"></div>
+            <div style="display: flex; flex-direction: row;">
+                <div style="display: flex; flex-direction: column;">
+                    Quantity:
+                    <input type=number bind:value={itemCount} min=0 max={product.Stock}>
                 </div>
+                <div style="padding-right: 30px;"></div>
+                <button style="width:130px;height:50px;">
+                    <div class="centered-div">
+                        Add to cart
+                        <div style="padding-right: 5px;"></div>
+                        <DynamicImage imageHeight=25 imageWidth=25 imagePath="{ShoppingCart}"/>
+                    </div>
+                </button>
             </div>
         </div>
-    {/if}
-{/each}
+    </div>
+</div>
 
 <style>
     .flex-div {
