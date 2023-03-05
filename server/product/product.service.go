@@ -31,8 +31,9 @@ func (svc *productService) handleProducts(w http.ResponseWriter, r *http.Request
 }
 
 func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
-	q := r.URL.Query()
-	page, err := strconv.Atoi(q.Get("page"))
+	queries := r.URL.Query()
+
+	page, err := strconv.Atoi(queries.Get("page"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -41,7 +42,7 @@ func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 		page = 1
 	}
 
-	pageSize, err := strconv.Atoi(q.Get("page_size"))
+	pageSize, err := strconv.Atoi(queries.Get("page_size"))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
@@ -53,7 +54,17 @@ func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 		pageSize = 10
 	}
 
-	products, err := (*svc.repo).List(page, pageSize) //getProductList()
+	var categoryID *int
+	if rawCategoryID := queries.Get("category"); rawCategoryID != "" {
+		categoryID = new(int)
+		*categoryID, err = strconv.Atoi(rawCategoryID)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
+	}
+
+	products, err := (*svc.repo).List(page, pageSize, categoryID) //getProductList()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

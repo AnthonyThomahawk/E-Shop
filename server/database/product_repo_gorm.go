@@ -19,9 +19,16 @@ func (repo *ProductRepoGORM) Details(id uint) (product.Product, error) {
 	return prd, err
 }
 
-func (repo *ProductRepoGORM) List(page, pageSize int) ([]product.Product, error) {
+func (repo *ProductRepoGORM) List(page, pageSize int, categoryID *int) ([]product.Product, error) {
 	var prds []product.Product
-	err := repo.db.Scopes(paginate(page, pageSize)).Find(&prds).Error
+
+	tx := repo.db.Scopes(paginate(page, pageSize))
+
+	if categoryID != nil {
+		tx = tx.Where("category_id = ?", *categoryID)
+	}
+
+	err := tx.Find(&prds).Error
 	return prds, err
 }
 

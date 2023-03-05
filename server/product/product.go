@@ -13,14 +13,12 @@ type Product struct {
 	Stock           int64   // Stock in gramms
 	ImageURL        string
 
-	Category Category
+	Category Category `gorm:"-"`
 }
 
-
 type ProductRepo interface {
-	//TODO: pagination
 	// Details(id uint) (Product, error)
-	List(page, pageSize int) ([]Product, error)
+	List(page, pageSize int, categoryID *int) ([]Product, error)
 	// Upsert(id uint) error
 	// Delete(id uint) error
 }
