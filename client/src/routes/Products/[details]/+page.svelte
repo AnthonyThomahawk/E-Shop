@@ -43,22 +43,11 @@
         <div class="flex-div">
             <h1>{product.Label}</h1>
             <h2>{product.Description}</h2>
-            {#if product.CategoryID === 0}
-                <h2>Category : Black tea</h2>
-            {:else if product.CategoryID === 1}
-                <h2>Category : Green tea</h2>
-            {:else if product.CategoryID === 2}
-                <h2>Category : White tea</h2>
-            {:else if product.CategoryID === 3}
-                <h2>Category : Oolong tea</h2>
-            {:else if product.CategoryID === 4}
-                <h2>Category : Rooibos</h2>
-            {/if}
-            <h3>{product.Characteristics}</h3>
             <div style="display: flex; flex-direction: row; align-items: start; position: relative;">
                 <DynamicImage imageHeight=400 imageWidth=400 imageLink="{product.ImageURL}"/>
                 <div style="padding-right: 50px;"></div>
                 <div style="display: flex; flex-direction: column; position: relative;">
+                    <h3>{product.Characteristics}</h3>
                     <h3><b>Current stock : {product.Stock}</b></h3>
                     <div style="padding-bottom: 25px;"></div>
                     <div style="display: flex; flex-direction: row;">
