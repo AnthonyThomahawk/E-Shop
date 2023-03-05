@@ -1,13 +1,13 @@
 package database
 
 import (
-	prd "github.com/AnthonyThomahawk/E-Shop/server/product"
+	"github.com/AnthonyThomahawk/E-Shop/server/product"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
 
 func SeedData(db *gorm.DB) error {
-	err := db.First(&prd.Category{}).Error
+	err := db.First(&product.Category{}).Error
 	if err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
@@ -18,7 +18,7 @@ func SeedData(db *gorm.DB) error {
 		}
 	}
 
-	err = db.First(&prd.Product{}).Error
+	err = db.First(&product.Product{}).Error
 	if err != nil {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
@@ -33,7 +33,7 @@ func SeedData(db *gorm.DB) error {
 }
 
 func seedCategories(db *gorm.DB) error {
-	categories := []prd.Category{
+	categories := []product.Category{
 		{
 			Description: "Discover unique black and black flavored tea varieties from Sri Lanka (Ceylon), China and India.",
 			Label:       "Black",
@@ -60,7 +60,7 @@ func seedCategories(db *gorm.DB) error {
 }
 
 func seedProducts(db *gorm.DB) error {
-	var categories []prd.Category
+	var categories []product.Category
 	err := db.Find(&categories).Error
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func seedProducts(db *gorm.DB) error {
 		return err
 	}
 
-	products := []prd.Product{
+	products := []product.Product{
 		// Black tea
 		{
 			CategoryID:      blackID,
@@ -347,7 +347,7 @@ func seedProducts(db *gorm.DB) error {
 	return db.Create(products).Error
 }
 
-func getCategoryID(categories []prd.Category, label string) (uint, error) {
+func getCategoryID(categories []product.Category, label string) (uint, error) {
 	for _, cat := range categories {
 		if cat.Label == label {
 			return cat.ID, nil

@@ -68,10 +68,10 @@ func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func SetupRoutes(apiBasePath string, repo ProductRepo) {
+func SetupProductRoutes(apiBasePath string, repo ProductRepo) {
 	service := productService{repo: &repo}
 
 	productsHandler := http.HandlerFunc(service.handleProducts)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), cors.Middleware(productsHandler))
-	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath);
+	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath)
 }

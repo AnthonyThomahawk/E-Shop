@@ -13,17 +13,14 @@ type Product struct {
 	Stock           int64   // Stock in gramms
 	ImageURL        string
 
-	// TODO: Second iteration
-	// AvgRating       *float32
-	// Picture
-
 	Category Category
 }
 
-type Category struct {
-	ID          uint `gorm:"primarykey"`
-	Description string
-	Label       string
 
-	Products []Product
+type ProductRepo interface {
+	//TODO: pagination
+	// Details(id uint) (Product, error)
+	List(page, pageSize int) ([]Product, error)
+	// Upsert(id uint) error
+	// Delete(id uint) error
 }

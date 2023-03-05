@@ -15,7 +15,7 @@ func NewProductRepo(db *gorm.DB) *ProductRepoGORM {
 
 func (repo *ProductRepoGORM) Details(id uint) (product.Product, error) {
 	var prd product.Product
-	err := repo.db.Model(&product.Product{}).Preload("Category").First(&prd).Error
+	err := repo.db.Model(&product.Product{}).First(&prd).Error
 	return prd, err
 }
 

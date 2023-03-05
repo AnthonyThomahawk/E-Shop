@@ -24,8 +24,10 @@ func main() {
 	}
 
 	productRepo := database.NewProductRepo(db)
+	categoryRepo := database.NewCategoryRepo(db)
 
-	product.SetupRoutes(BasePath, productRepo)
+	product.SetupProductRoutes(BasePath, productRepo)
+	product.SetupCategoryRoutes(BasePath, categoryRepo)
 	fmt.Println("Listening to 5000")
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }
