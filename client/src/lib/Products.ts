@@ -8,6 +8,14 @@ export const getProducts = async (page:number, pageSize:number) => {
     }
 }
 
+export const getProductCategories = async () => {
+    try {
+        return await API.get(`/api/categories`);
+    } catch (error) {
+        console.error(error)
+    }
+}
+
 export const getProductsByCategoryId = async (page:number, pageSize:number, categoryId:number) => {
     try {
         return await API.get(`/api/products?page=${page}&page_size=${pageSize}&category=${categoryId}`);
