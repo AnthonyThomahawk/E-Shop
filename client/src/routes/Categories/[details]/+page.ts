@@ -1,4 +1,5 @@
-import type {PageLoad} from "../../../../.svelte-kit/types/src/routes/Categories/[details]/$types";
+// @ts-ignore
+import type {PageLoad} from './$types';
 export const load = (({ params }) => {
     return {
         post: {

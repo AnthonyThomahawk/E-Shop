@@ -1,13 +1,14 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {getProductDetails, getProducts} from "../../../lib/Products";
+    import {getProductDetails} from "../../../lib/Products";
     import DynamicImage from "../../../lib/DynamicImage.svelte";
     import ShoppingCart from "../Images/shoppingCart.png"
-    import PageData = App.PageData;
-
+    // @ts-ignore
+    import type {PageData} from './$types';
     export let data: PageData;
 
-    let TargetProductID = data.post.id;
+    // @ts-ignore
+    let TargetID = data.post.id;
 
     interface IProduct {
         ID: number;
@@ -21,35 +22,53 @@
         ImageURL: string;
     }
 
-    let product: IProduct;
-    onMount(async () => {
-        const res = await getProductDetails(TargetProductID);
+    let product : IProduct = {} as IProduct;
+    let imageSrc;
 
-        product = res.map((item: any) => ({
-            ID : item.ID,
-            CategoryID: item.CategoryID,
-            SKU: item.SKU,
-            Label: item.Label,
-            Description: item.Description,
-            Characteristics: item.Characteristics,
-            Price: item.Price,
-            Stock: item.Stock,
-            ImageURL: item.ImageURL,
-        }));
+    onMount(async () => {
+        const res = await getProductDetails(TargetID);
+
+        product = {
+            ID : res.ID,
+            CategoryID: res.CategoryID,
+            SKU: res.SKU,
+            Label: res.Label,
+            Description: res.Description,
+            Characteristics: res.Characteristics,
+            Price: res.Price,
+            Stock: res.Stock,
+            ImageURL: res.ImageURL,
+        };
+
+        const img = new Image();
+        img.src = product.ImageURL;
+        imageSrc = img.src;
     });
 
+    function truncate (num, places) {
+        return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
+    }
+
+    let totalPrice = 0;
     let itemCount = 0;
+
+    $ : totalPrice = truncate(itemCount * product.Price, 1);
 </script>
 
 <div class="flex-div">
     <h1>{product.Label}</h1>
     <h2>{product.Description}</h2>
     <div style="display: flex; flex-direction: row; align-items: start; position: relative;">
-        <DynamicImage imageHeight=400 imageWidth=400 imageLink="{product.ImageURL}"/>
+        <img src="{imageSrc}" height=400px width=400px alt="Product Image"/>
         <div style="padding-right: 50px;"></div>
         <div style="display: flex; flex-direction: column; position: relative;">
             <h3>{product.Characteristics}</h3>
             <h3><b>Current stock : {product.Stock}</b></h3>
+            <div style="display: flex;">
+                <h3>Price : {product.Price}€</h3>
+                <div style="padding-right: 15px"></div>
+                <h3>Total price : {totalPrice}€</h3>
+            </div>
             <div style="padding-bottom: 25px;"></div>
             <div style="display: flex; flex-direction: row;">
                 <div style="display: flex; flex-direction: column;">

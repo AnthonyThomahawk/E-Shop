@@ -2,7 +2,8 @@
     import {onMount} from "svelte";
     import {getProductsByCategoryId} from "../../../lib/Products";
     import ItemFrame from "../../Products/ItemFrame.svelte";
-    import PageData = App.PageData;
+    // @ts-ignore
+    import type {PageData} from './$types';
     export let data: PageData;
 
     let CategoryID = data.post.id;
