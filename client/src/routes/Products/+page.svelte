@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import ItemFrame from "./ItemFrame.svelte";
     import { getProducts } from "../../lib/Products";
 
@@ -15,9 +14,13 @@
         ImageURL: string;
     }
 
+    let pageNumber = 1;
+    let pageChanges = 0;
+
     let products: Array<IProduct> = [];
-    onMount(async () => {
-        const res = await getProducts(1, 5);
+
+    async function getProductList() {
+        const res = await getProducts(pageNumber, 5);
 
         products = res.map((item: any) => ({
             ID : item.ID,
@@ -30,18 +33,33 @@
             Stock: item.Stock,
             ImageURL: item.ImageURL,
         }));
-    });
+
+        pageChanges += 1;
+    }
+
+    $: {
+        pageNumber;
+        getProductList();
+    }
 </script>
 
 <h1>Products</h1>
+<div style="display: flex; flex-direction: row; align-items: center">
+    Current page :
+    <div style="padding:5px"></div>
+    <input type=number bind:value={pageNumber} min=1 max=5>
+</div>
+
 <div style="display:flex;">
-    {#each products as product}
-        <ItemFrame
-                ItemName="{product.Label}"
-                ItemPrice="{product.Price}€"
-                ItemID="{product.ID}"
-                imageLink="{product.ImageURL}"
-        />
-        <div style="padding:10px" />
-    {/each}
+    {#key pageChanges}
+        {#each products as product}
+            <ItemFrame
+                    ItemName="{product.Label}"
+                    ItemPrice="{product.Price}€"
+                    ItemID="{product.ID}"
+                    imageLink="{product.ImageURL}"
+            />
+            <div style="padding:10px"></div>
+        {/each}
+    {/key}
 </div>
