@@ -30,10 +30,11 @@ func (svc *productService) handleProducts(w http.ResponseWriter, r *http.Request
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
+
 func (svc *productService) handleProduct(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		svc.getProduct(w, r)
+		svc.getProductByID(w, r)
 	case http.MethodPost:
 		//TODO:
 		return
@@ -45,7 +46,7 @@ func (svc *productService) handleProduct(w http.ResponseWriter, r *http.Request)
 }
 
 
-func (svc *productService) getProduct(w http.ResponseWriter, r *http.Request) {
+func (svc *productService) getProductByID(w http.ResponseWriter, r *http.Request) {
 	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", ProductsPath))
 	if len(urlPathSegments[1:]) > 1 {
 		w.WriteHeader(http.StatusBadRequest)
