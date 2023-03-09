@@ -7,6 +7,7 @@
         ID: number;
         Description: string;
         Label: string;
+        ColorHex: string;
     }
 
     let categories : Array<ICategory> = [];
@@ -17,7 +18,8 @@
         categories = res.map((item : any) => ({
             ID: item.ID,
             Description: item.Description,
-            Label: item.Label
+            Label: item.Label,
+            ColorHex: item.Color
         }));
     }
 
@@ -28,7 +30,7 @@
 
 <div style="display: flex; align-items: center;justify-content: center">
     {#each categories as category}
-        <CategoryFrame Color="black" Name="{category.Label}" ID="{category.ID}" Description="{category.Description}"/>
+        <CategoryFrame Color="{category.ColorHex}" Name="{category.Label}" ID="{category.ID}" Description="{category.Description}"/>
         <div style="padding-right: 15px"></div>
     {/each}
 </div>
