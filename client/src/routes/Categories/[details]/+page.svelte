@@ -5,6 +5,7 @@
     import type {PageData} from './$types';
     export let data: PageData;
 
+    // @ts-ignore
     let CategoryID = data.post.id;
 
     interface IProduct {

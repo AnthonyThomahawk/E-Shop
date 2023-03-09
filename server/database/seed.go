@@ -37,22 +37,27 @@ func seedCategories(db *gorm.DB) error {
 		{
 			Description: "Discover unique black and black flavored tea varieties from Sri Lanka (Ceylon), China and India.",
 			Label:       "Black",
+			Color:       "#000000",
 		},
 		{
 			Description: "The best green and green flavored teas from Ceylon, China, Japan and Taiwan.",
 			Label:       "Green",
+			Color:       "#30bd06",
 		},
 		{
 			Description: "Light and full flavored, low in caffeine, white and white flavored tea is the best choice for anytime of the day.",
 			Label:       "White",
+			Color:       "#a8b3b2",
 		},
 		{
 			Description: "It balances between black and green tea. Either low or high fermented it is always a tasteful choice.",
 			Label:       "Oolong",
+			Color:       "#66443e",
 		},
 		{
 			Description: "The South African infusion. Full in Vitamin C, without any caffeine.",
 			Label:       "Rooibos",
+			Color:       "#943625",
 		},
 	}
 
@@ -77,6 +82,11 @@ func seedProducts(db *gorm.DB) error {
 	}
 
 	whiteID, err := getCategoryID(categories, "White")
+	if err != nil {
+		return err
+	}
+
+	oolongID, err := getCategoryID(categories, "Oolong")
 	if err != nil {
 		return err
 	}
@@ -242,7 +252,7 @@ func seedProducts(db *gorm.DB) error {
 		},
 		// Oolong tea
 		{
-			CategoryID:      whiteID,
+			CategoryID:      oolongID,
 			SKU:             "0000607",
 			Label:           "DIAMOND OOLONG",
 			Description:     "Oolong tea combined with flowers",
@@ -252,7 +262,7 @@ func seedProducts(db *gorm.DB) error {
 			ImageURL:        "https://tea.gr/uploads/gallery/OL01_2.jpg",
 		},
 		{
-			CategoryID:      whiteID,
+			CategoryID:      oolongID,
 			SKU:             "0000608",
 			Label:           "Oolong Se Chung",
 			Description:     "High fermented oolong with earthy aftertaste",
@@ -262,7 +272,7 @@ func seedProducts(db *gorm.DB) error {
 			ImageURL:        "https://tea.gr/uploads/gallery/OL02_2.jpg",
 		},
 		{
-			CategoryID:      whiteID,
+			CategoryID:      oolongID,
 			SKU:             "0000609",
 			Label:           "Milky Oolong",
 			Description:     "Quality milk processed oolong tea",
@@ -272,7 +282,7 @@ func seedProducts(db *gorm.DB) error {
 			ImageURL:        "https://tea.gr/uploads/gallery/OL04_2.jpg",
 		},
 		{
-			CategoryID:      whiteID,
+			CategoryID:      oolongID,
 			SKU:             "0000610",
 			Label:           "Oolong Mlesna",
 			Description:     "A quality oolong with the stamp of Mlesna",
@@ -282,7 +292,7 @@ func seedProducts(db *gorm.DB) error {
 			ImageURL:        "https://tea.gr/uploads/gallery/OL05_2.jpg",
 		},
 		{
-			CategoryID:      whiteID,
+			CategoryID:      oolongID,
 			SKU:             "0000611",
 			Label:           "IRON GODDESS - TI KUAN YIN",
 			Description:     "Low fermented Oolong",

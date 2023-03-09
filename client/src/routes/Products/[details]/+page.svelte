@@ -52,7 +52,7 @@
     let totalPrice = 0;
     let itemCount = 0;
 
-    $ : totalPrice = truncate(itemCount * product.Price, 1);
+    $: totalPrice = truncate(itemCount * product.Price, 1);
 </script>
 
 <div class="flex-div">
