@@ -12,6 +12,10 @@
         <a href="/Products" style="color:#fff">products</a>
         <a href="/about" style="color:#fff">about</a>
     </nav>
+    <div style="padding-right: 55px; margin-left: auto;">
+        <a href="/Login" style="color:#fff">login</a>
+        <a href="/Register" style="color:#fff">register</a>
+    </div>
 </header>
 
 <style>
@@ -27,7 +31,7 @@
         left: 0;
         width: 100%;
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         align-items: center;
         background-color: #333;
         color: #fff;
