@@ -7,4 +7,10 @@ type User struct {
 	Username string
 	Password string
 	RoleID   uint
+
+	Role Role `gorm:"-" json:"-"`
+}
+
+type UserRepo interface {
+	Load(username string) error
 }

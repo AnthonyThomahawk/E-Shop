@@ -2,6 +2,7 @@ package database
 
 import (
 	"github.com/AnthonyThomahawk/E-Shop/server/product"
+	"github.com/AnthonyThomahawk/E-Shop/server/user"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
 )
@@ -23,9 +24,31 @@ func SeedData(db *gorm.DB) error {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
 		}
-		err := seedProducts(db)
+		err = seedProducts(db)
 		if err != nil {
 			return errors.Errorf("could not seed products, error; %v", err)
+		}
+	}
+
+	err = db.First(&user.Role{}).Error
+	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+		err = seedRoles(db)
+		if err != nil {
+			return errors.Errorf("could not seed roles, error; %v", err)
+		}
+	}
+
+	err = db.First(&user.User{}).Error
+	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+		err := seedUsers(db)
+		if err != nil {
+			return errors.Errorf("could not seed users, error; %v", err)
 		}
 	}
 
@@ -357,11 +380,71 @@ func seedProducts(db *gorm.DB) error {
 	return db.Create(products).Error
 }
 
+func seedRoles(db *gorm.DB) error {
+
+	roles := []user.Role{
+		{
+			Name: "Admin",
+		},
+		{
+			Name: "Customer",
+		},
+	}
+
+	return db.Create(roles).Error
+
+}
+
+func seedUsers(db *gorm.DB) error {
+
+	var roles []user.Role
+	err := db.Find(&roles).Error
+	if err != nil {
+		return err
+	}
+
+	adminID, err := getRoleID(roles, "Admin")
+	if err != nil {
+		return err
+	}
+
+	customerID, err := getRoleID(roles, "Customer")
+	if err != nil {
+		return err
+	}
+
+	users := []user.User{
+		{
+			Username: "Panos",
+			Password: "12345",
+			RoleID:   customerID,
+		},
+		{
+			Model:    gorm.Model{},
+			Username: "Antonis",
+			Password: "12345",
+			RoleID:   adminID,
+		},
+	}
+
+	return db.Create(users).Error
+}
+
 func getCategoryID(categories []product.Category, label string) (uint, error) {
+
 	for _, cat := range categories {
 		if cat.Label == label {
 			return cat.ID, nil
 		}
 	}
 	return 0, errors.Errorf("Category with label %v not in slice", label)
+}
+
+func getRoleID(roles []user.Role, name string) (uint, error) {
+	for _, role := range roles {
+		if role.Name == name {
+			return role.ID, nil
+		}
+	}
+	return 0, errors.Errorf("Role with name %v not in slice", name)
 }
