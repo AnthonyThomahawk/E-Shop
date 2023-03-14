@@ -13,8 +13,15 @@ func NewUserRepo(db *gorm.DB) *UserRepoGORM {
 	return &UserRepoGORM{db: db}
 }
 
-func (repo *UserRepoGORM) Details(id int) (user.User, error) {
+func (repo *UserRepoGORM) Load(email string) (*user.User, error) {
 	var usr user.User
-	err := repo.db.Model(&user.User{}).First(&usr, id).Error
-	return usr, err
+	err := repo.db.Model(&user.User{}).Where("email = ?", email).First(&usr).Error
+	if err != nil {
+		return nil, err
+	}
+	return &usr, nil
+}
+
+func (repo *UserRepoGORM) Save(user user.User) error {
+	return repo.db.Create(&user).Error
 }

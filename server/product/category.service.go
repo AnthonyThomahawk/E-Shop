@@ -1,6 +1,5 @@
 package product
 
-
 import (
 	"encoding/json"
 	"fmt"
@@ -48,8 +47,6 @@ func (svc *categoryService) getCategories(w http.ResponseWriter, r *http.Request
 
 func SetupCategoryRoutes(apiBasePath string, repo CategoryRepo) {
 	service := categoryService{repo: &repo}
-
 	categoryHandler := http.HandlerFunc(service.handleCategories)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, CategoriesPath), cors.Middleware(categoryHandler))
-	fmt.Printf("%s/%s\n", apiBasePath, CategoriesPath)
 }

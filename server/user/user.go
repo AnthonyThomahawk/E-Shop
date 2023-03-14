@@ -4,13 +4,14 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Username string
-	Password string
+	Email    string
+	PasswordHash string
 	RoleID   uint
 
 	Role Role `gorm:"-" json:"-"`
 }
 
 type UserRepo interface {
-	Load(username string) error
+	Load(email string) (*User, error)
+	Save(user User) error
 }

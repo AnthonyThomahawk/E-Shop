@@ -4,6 +4,7 @@ import (
 	"github.com/AnthonyThomahawk/E-Shop/server/product"
 	"github.com/AnthonyThomahawk/E-Shop/server/user"
 	"github.com/pkg/errors"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -413,17 +414,24 @@ func seedUsers(db *gorm.DB) error {
 		return err
 	}
 
+	password := "12345"
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+
 	users := []user.User{
 		{
-			Username: "Panos",
-			Password: "12345",
-			RoleID:   customerID,
+			Email:        "Panos",
+			PasswordHash: string(hash[:]),
+			RoleID:       customerID,
 		},
 		{
-			Model:    gorm.Model{},
-			Username: "Antonis",
-			Password: "12345",
-			RoleID:   adminID,
+			Model:        gorm.Model{},
+			Email:        "Antonis",
+			PasswordHash: string(hash[:]),
+			RoleID:       adminID,
 		},
 	}
 

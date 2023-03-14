@@ -45,7 +45,6 @@ func (svc *productService) handleProduct(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-
 func (svc *productService) getProductByID(w http.ResponseWriter, r *http.Request) {
 	urlPathSegments := strings.Split(r.URL.Path, fmt.Sprintf("%s/", ProductsPath))
 	if len(urlPathSegments[1:]) > 1 {
@@ -73,7 +72,6 @@ func (svc *productService) getProductByID(w http.ResponseWriter, r *http.Request
 		log.Fatal(err)
 	}
 }
-
 
 func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 	queries := r.URL.Query()
@@ -126,10 +124,8 @@ func (svc *productService) getProducts(w http.ResponseWriter, r *http.Request) {
 
 func SetupProductRoutes(apiBasePath string, repo ProductRepo) {
 	service := productService{repo: &repo}
-
 	productsHandler := http.HandlerFunc(service.handleProducts)
 	productHandler := http.HandlerFunc(service.handleProduct)
 	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, ProductsPath), cors.Middleware(productsHandler))
 	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, ProductsPath), cors.Middleware(productHandler))
-	fmt.Printf("%s/%s\n", apiBasePath, ProductsPath)
 }

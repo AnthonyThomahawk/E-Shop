@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/AnthonyThomahawk/E-Shop/server/auth"
 	"github.com/AnthonyThomahawk/E-Shop/server/config"
 	"github.com/AnthonyThomahawk/E-Shop/server/database"
 	"github.com/AnthonyThomahawk/E-Shop/server/product"
@@ -24,10 +25,15 @@ func main() {
 	}
 
 	productRepo := database.NewProductRepo(db)
-	categoryRepo := database.NewCategoryRepo(db)
-
 	product.SetupProductRoutes(BasePath, productRepo)
+
+	categoryRepo := database.NewCategoryRepo(db)
 	product.SetupCategoryRoutes(BasePath, categoryRepo)
+
+	userRepo := database.NewUserRepo(db)
+	auth.SetupLoginRoutes(BasePath, userRepo)
+	auth.SetupRegisterRoutes(BasePath, userRepo)
+
 	fmt.Println("Listening to 5000")
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }
