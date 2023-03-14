@@ -423,13 +423,13 @@ func seedUsers(db *gorm.DB) error {
 
 	users := []user.User{
 		{
-			Email:        "Panos",
+			Email:        "panos@panopoulos.com",
 			PasswordHash: string(hash[:]),
 			RoleID:       customerID,
 		},
 		{
 			Model:        gorm.Model{},
-			Email:        "Antonis",
+			Email:        "antonis@antonopoulos.com",
 			PasswordHash: string(hash[:]),
 			RoleID:       adminID,
 		},
