@@ -428,7 +428,6 @@ func seedUsers(db *gorm.DB) error {
 			RoleID:       customerID,
 		},
 		{
-			Model:        gorm.Model{},
 			Email:        "antonis@antonopoulos.com",
 			PasswordHash: string(hash[:]),
 			RoleID:       adminID,
