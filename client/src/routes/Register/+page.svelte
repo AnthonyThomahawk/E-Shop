@@ -1,44 +1,86 @@
 <script lang="ts">
     import DynamicImage from "../../lib/DynamicImage.svelte";
-    import UserIcon from "../../assets/usericon.png"
-    import KeyIcon from "../../assets/keyicon.png"
-    import MailIcon from "../../assets/mailicon.webp"
+    import KeyIcon from "../../assets/keyicon.png";
+    import MailIcon from "../../assets/mailicon.webp";
+    import {registerUser} from "../../lib/Auth";
 
-    let username = "";
+
     let password = "";
     let email = "";
 
     let notification = "";
     let notification_color = "black";
 
+    interface IUser {
+        Email: string;
+        Password: string;
+    }
+
+    interface IUserAuth {
+        Email: string;
+        Token: string;
+    }
+
+    let UserAuth: IUserAuth = {} as IUserAuth;
+
     function getBlankFields() {
         let blankFields : Array<string> = [];
 
-        if (username === "") {
-            blankFields.push("Username");
+        if (email === "") {
+            blankFields.push("E-mail");
         }
         if (password === "") {
             blankFields.push("Password");
-        }
-        if (email === "") {
-            blankFields.push("E-Mail");
         }
 
         return blankFields;
     }
 
-    function registerUser() {
+    const validateEmail = (email) => {
+        return email.match(
+            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+    };
+
+    async function register() {
         const blankFields = getBlankFields();
 
         if (blankFields.length == 0) {
-            notification = "Registration successful!";
-            notification_color = "green";
-        }
-        else {
+            if (password.length >= 8) {
+                if (validateEmail(email)) {
+                    let User: IUser = {} as IUser;
+
+                    User.Email = email;
+                    User.Password = password;
+
+                    try {
+                        const res = await registerUser(User);
+
+                        UserAuth = {
+                            Email : res.Email,
+                            Token : res.Token
+                        }
+
+                        notification = "E-mail : " + UserAuth.Email + " has been registered!";
+                        notification_color = "green";
+                    }
+                    catch (error) {
+                        notification = "Registration failed, e-mail already exists";
+                        notification_color = "red";
+                    }
+                } else {
+                    notification = "Registration failed, " + email + " is not a valid email address.";
+                    notification_color = "red";
+                }
+            } else {
+                notification = "Registration failed, password must be 8 characters or more."
+                notification_color = "red";
+            }
+        } else {
             notification = "Registration failed because the field(s) : "
-            for (let i = 0; i < blankFields.length; i++){
+            for (let i = 0; i < blankFields.length; i++) {
                 notification += blankFields[i];
-                if (i != blankFields.length-1) {
+                if (i != blankFields.length - 1) {
                     notification += ',';
                 }
                 notification += ' ';
@@ -54,34 +96,27 @@
     <div style="padding-top: 25px;"></div>
 
     <div class="border-div">
-        <label for="username-input">Username</label>
+        <label for="email-input">E-mail</label>
         <div>
-            <div style="transform: translate(0,15%)">
-                <DynamicImage imageHeight="35" imageWidth="35" imagePath="{UserIcon}"/>
+            <div class="pad-div">
+                <DynamicImage imageHeight="35" imageWidth="35" imagePath="{MailIcon}"/>
             </div>
-            <input id="username-input" bind:value={username}>
+            <input id="email-input" bind:value={email}>
         </div>
 
         <label for="password-input">Password</label>
         <div>
-            <div style="transform: translate(0,15%)">
+            <div class="pad-div">
                 <DynamicImage imageHeight="35" imageWidth="35" imagePath="{KeyIcon}"/>
             </div>
             <input id="password-input" type="password" bind:value={password}>
         </div>
 
-        <label for="email-input">E-mail</label>
-        <div>
-            <div style="transform: translate(0,15%)">
-                <DynamicImage imageHeight="35" imageWidth="35" imagePath="{MailIcon}"/>
-            </div>
-            <input id="email-input" bind:value={email}>
-        </div>
     </div>
 
     <div style="padding-top:25px"></div>
 
-    <button on:click={registerUser} style="width: 200px; height: 55px;">Register user</button>
+    <button on:click={register} style="width: 200px; height: 55px;">Register user</button>
 
     <div style="padding-top:25px"></div>
 
@@ -90,6 +125,10 @@
 
 
 <style>
+    .pad-div {
+        margin-right: 5px;
+        transform: translate(0,15%)
+    }
     .border-div {
         padding: 35px;
         border-radius:3%;
