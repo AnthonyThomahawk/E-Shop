@@ -1,8 +1,10 @@
 <script lang="ts">
     import DynamicImage from "../../lib/DynamicImage.svelte";
     import MailIcon from "../../assets/mailicon.webp";
-    import KeyIcon from "../../assets/keyicon.png"
+    import KeyIcon from "../../assets/keyicon.png";
+    import {setLocalStorage} from "../../lib/LocalStorage";
     import {loginUser} from "../../lib/Auth";
+    import {goto} from "$app/navigation";
 
     let email = "";
     let password = "";
@@ -52,8 +54,19 @@
                     Token : res.Token
                 }
 
+                setLocalStorage("UserData",
+                    {
+                        Email: UserAuth.Email,
+                        Token: UserAuth.Token
+                    }
+                );
+
                 notification = "Login as "+ UserAuth.Email + " successful!";
                 notification_color = "green";
+
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                await goto('/');
+                location.reload();
             }
             catch (error) {
                 notification = "Login failed, wrong e-mail and/or password";

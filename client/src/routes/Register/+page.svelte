@@ -1,12 +1,13 @@
 <script lang="ts">
     import DynamicImage from "../../lib/DynamicImage.svelte";
-    import KeyIcon from "../../assets/keyicon.png";
     import MailIcon from "../../assets/mailicon.webp";
+    import KeyIcon from "../../assets/keyicon.png";
+    import {setLocalStorage} from "../../lib/LocalStorage";
     import {registerUser} from "../../lib/Auth";
+    import {goto} from "$app/navigation";
 
-
-    let password = "";
     let email = "";
+    let password = "";
 
     let notification = "";
     let notification_color = "black";
@@ -61,8 +62,19 @@
                             Token : res.Token
                         }
 
+                        setLocalStorage("UserData",
+                            {
+                                Email: UserAuth.Email,
+                                Token: UserAuth.Token
+                            }
+                        );
+
                         notification = "E-mail : " + UserAuth.Email + " has been registered!";
                         notification_color = "green";
+
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await goto('/');
+                        location.reload();
                     }
                     catch (error) {
                         notification = "Registration failed, e-mail already exists";

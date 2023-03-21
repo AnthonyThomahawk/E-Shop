@@ -1,6 +1,20 @@
 <script>
-    export let title = "World of tea";
+    import {onMount} from "svelte";
     import Icon from '../assets/TeaIcon.png'
+    import {getLocalStorage} from "../lib/LocalStorage";
+
+    export let title = "World of tea";
+    let user;
+
+    onMount(async () => {
+        try {
+            const data = getLocalStorage("UserData");
+            user = data.Email;
+        }
+        catch (error) {
+            user = "";
+        }
+    });
 </script>
 
 <header>
@@ -12,10 +26,16 @@
         <a href="/Products" style="color:#fff">products</a>
         <a href="/about" style="color:#fff">about</a>
     </nav>
-    <div style="padding-right: 55px; margin-left: auto;">
-        <a href="/Login" style="color:#fff">login</a>
-        <a href="/Register" style="color:#fff">register</a>
-    </div>
+    {#if user === ""}
+        <div style="padding-right: 55px; margin-left: auto;">
+            <a href="/Login" style="color:#fff">login</a>
+            <a href="/Register" style="color:#fff">register</a>
+        </div>
+    {:else}
+        <div style="padding-right: 55px; margin-left: auto;">
+            <a href="/Account" style="color:#fff">my account</a>
+        </div>
+    {/if}
 </header>
 
 <style>
