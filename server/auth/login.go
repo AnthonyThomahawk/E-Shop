@@ -39,34 +39,25 @@ func (svc *loginService) login(w http.ResponseWriter, r *http.Request) {
 
 	user, err := (*svc.repo).Load(creds.Email)
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	if err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(creds.Password)); err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
-	token, err := generateJWT(user.Email, user.RoleID)
-	if err != nil {
+	if err = bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(creds.Password)); err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
 
-	j, err := json.Marshal(Session{
-		Email: creds.Email,
-		Token: token,
-	})
+	token, err := GenerateJWT(user.ID, user.RoleID)
 	if err != nil {
-		log.Print(err)
-		w.WriteHeader(http.StatusBadRequest)
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	_, err = w.Write(j)
-	if err != nil {
-		log.Fatal(err)
-	}
+	w.Header().Set("Authorization", fmt.Sprintf("Bearer %s", token))
 }
 
 func SetupLoginRoutes(apiBasePath string, repo user.UserRepo) {

@@ -45,15 +45,15 @@ func (svc *registerService) register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if usr != nil {
-		//TODO: add message "there is already user with that email"
-		w.WriteHeader(http.StatusBadRequest)
+		log.Println(err)
+		http.Error(w, "there is already user with this email", http.StatusBadRequest)
 		return
 	}
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(creds.Password), bcrypt.DefaultCost)
 	if err != nil {
-		// TODO: add message "could not hash password; %v", err
-		w.WriteHeader(http.StatusBadRequest)
+		log.Println(err)
+		http.Error(w, "could not generate password", http.StatusBadRequest)
 		return
 	}
 
@@ -65,29 +65,19 @@ func (svc *registerService) register(w http.ResponseWriter, r *http.Request) {
 
 	err = (*svc.repo).Save(newUser)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	token, err := generateJWT(newUser.Email, newUser.RoleID)
+	token, err := GenerateJWT(newUser.ID, newUser.RoleID)
 	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	j, err := json.Marshal(Session{
-		Email: creds.Email,
-		Token: token,
-	})
-	if err != nil {
-		log.Print(err)
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	_, err = w.Write(j)
-	if err != nil {
-		log.Fatal(err)
-	}
+	w.Header().Set("Authorization", fmt.Sprintf("Bearer %s", token))
 }
 
 func SetupRegisterRoutes(apiBasePath string, repo user.UserRepo) {

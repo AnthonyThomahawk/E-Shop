@@ -1,6 +1,6 @@
 {
     "db": {
-        "dataSourceName": "host=0.0.0.0 port=5432 user=bladez dbname=eshop password=antonis",
+        "dataSourceName": "host=0.0.0.0 port=5432 user=panos dbname=eshop password=5807",
         "maxConnections": 70,
         "maxIdleConnections": 20
     }

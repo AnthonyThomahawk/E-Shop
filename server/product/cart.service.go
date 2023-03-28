@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/AnthonyThomahawk/E-Shop/server/auth"
 	"github.com/AnthonyThomahawk/E-Shop/server/cors"
 )
 
@@ -55,10 +56,14 @@ func (svc *cartService) insertCartItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//TODO: Extract UserID
-	userID := uint(1)
+	claims, err := auth.ExtractClaims(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		log.Print(err)
+		return
+	}
 
-	err = (*svc.repo).Insert(userID, model.ProductID, model.Quantity)
+	err = (*svc.repo).Insert(claims.UserID, model.ProductID, model.Quantity)
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -88,10 +93,14 @@ func (svc *cartService) updateCartItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//TODO: Extract UserID
-	userID := uint(1)
+	claims, err := auth.ExtractClaims(r)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	err = (*svc.repo).Update(userID, uint(productID), model.Quantity)
+	err = (*svc.repo).Update(claims.UserID, uint(productID), model.Quantity)
 	if err != nil {
 		if err.Error() == "record not found" {
 			log.Print(err)
@@ -117,10 +126,14 @@ func (svc *cartService) deleteCartItem(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//TODO: Extract UserID
-	userID := uint(1)
+	claims, err := auth.ExtractClaims(r)
+	if err != nil {
+		log.Print(err)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	err = (*svc.repo).Delete(userID, uint(productID))
+	err = (*svc.repo).Delete(claims.UserID, uint(productID))
 	if err != nil {
 		log.Print(err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -153,10 +166,13 @@ func (svc *cartService) getCart(w http.ResponseWriter, r *http.Request) {
 		pageSize = 10
 	}
 
-	// TODO: Extract UserID form token
-	var userID uint = 1
+	claims, err := auth.ExtractClaims(r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	cartRows, err := (*svc.repo).List(page, pageSize, userID) //getProductList()
+	cartRows, err := (*svc.repo).List(page, pageSize, claims.UserID) //getProductList()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -191,6 +207,12 @@ func SetupCartRoutes(apiBasePath string, repo CartRepo) {
 	service := cartService{repo: &repo}
 	cartHandler := http.HandlerFunc(service.handleCart)
 	cartItemHandler := http.HandlerFunc(service.handleCartItem)
-	http.Handle(fmt.Sprintf("%s/%s", apiBasePath, CartPath), cors.Middleware(cartHandler))
-	http.Handle(fmt.Sprintf("%s/%s/", apiBasePath, CartPath), cors.Middleware(cartItemHandler))
+	http.Handle(
+		fmt.Sprintf("%s/%s", apiBasePath, CartPath),
+		cors.Middleware(auth.VerifyJWT(cartHandler)),
+	)
+	http.Handle(
+		fmt.Sprintf("%s/%s/", apiBasePath, CartPath),
+		cors.Middleware(auth.VerifyJWT(cartItemHandler)),
+	)
 }
