@@ -1,6 +1,8 @@
 package product
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type Product struct {
 	gorm.Model
@@ -13,7 +15,8 @@ type Product struct {
 	Stock           int64   // Stock in gramms
 	ImageURL        string
 
-	Category Category `gorm:"-" json:"-"`
+	Category         Category          `gorm:"-" json:"-"`
+	UserProductCarts []UserProductCart `gorm:"-" json:"-"`
 }
 
 type ProductRepo interface {

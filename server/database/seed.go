@@ -1,11 +1,12 @@
 package database
 
 import (
-	"github.com/AnthonyThomahawk/E-Shop/server/product"
-	"github.com/AnthonyThomahawk/E-Shop/server/user"
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+
+	"github.com/AnthonyThomahawk/E-Shop/server/product"
+	"github.com/AnthonyThomahawk/E-Shop/server/user"
 )
 
 func SeedData(db *gorm.DB) error {
@@ -47,9 +48,20 @@ func SeedData(db *gorm.DB) error {
 		if !errors.Is(err, gorm.ErrRecordNotFound) {
 			return err
 		}
-		err := seedUsers(db)
+		err = seedUsers(db)
 		if err != nil {
 			return errors.Errorf("could not seed users, error; %v", err)
+		}
+	}
+
+	err = db.First(&product.UserProductCart{}).Error
+	if err != nil {
+		if !errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+		err = seedCarts(db)
+		if err != nil {
+			return errors.Errorf("could not seed carts, error; %v", err)
 		}
 	}
 
@@ -435,6 +447,58 @@ func seedUsers(db *gorm.DB) error {
 	}
 
 	return db.Create(users).Error
+}
+
+func seedCarts(db *gorm.DB) error {
+	var customerRoleID uint
+	err := db.Model(&user.Role{}).
+		Select("id").
+		Where(&user.Role{Name: "Customer"}).
+		First(&customerRoleID).
+		Error
+	if err != nil {
+		return err
+	}
+
+	var userID uint
+	err = db.Model(&user.User{}).
+		Select("id").
+		Where(&user.User{RoleID: customerRoleID}).
+		First(&userID).
+		Error
+	if err != nil {
+		return err
+	}
+
+	var productIDs []uint
+	err = db.Model(&product.Product{}).Select("id").Find(&productIDs).Error
+	if err != nil {
+		return err
+	}
+
+	userProductCarts := []product.UserProductCart{
+		{
+			UserID:    userID,
+			ProductID: productIDs[0],
+			Quantity:  1,
+		},
+		{
+			UserID:    userID,
+			ProductID: productIDs[1],
+			Quantity:  2,
+		},
+		{
+			UserID:    userID,
+			ProductID: productIDs[2],
+			Quantity:  3,
+		},
+		{
+			UserID:    userID,
+			ProductID: productIDs[3],
+			Quantity:  5,
+		},
+	}
+	return db.Create(userProductCarts).Error
 }
 
 func getCategoryID(categories []product.Category, label string) (uint, error) {

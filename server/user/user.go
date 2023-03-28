@@ -4,9 +4,9 @@ import "gorm.io/gorm"
 
 type User struct {
 	gorm.Model
-	Email    string
+	Email        string
 	PasswordHash string
-	RoleID   uint
+	RoleID       uint
 
 	Role Role `gorm:"-" json:"-"`
 }

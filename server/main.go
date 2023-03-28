@@ -30,6 +30,9 @@ func main() {
 	categoryRepo := database.NewCategoryRepo(db)
 	product.SetupCategoryRoutes(BasePath, categoryRepo)
 
+	cartRepo := database.NewCartRepo(db)
+	product.SetupCartRoutes(BasePath, cartRepo)
+
 	userRepo := database.NewUserRepo(db)
 	auth.SetupLoginRoutes(BasePath, userRepo)
 	auth.SetupRegisterRoutes(BasePath, userRepo)

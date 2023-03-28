@@ -1,10 +1,11 @@
 package database
 
 import (
-	"github.com/AnthonyThomahawk/E-Shop/server/product"
-	"github.com/AnthonyThomahawk/E-Shop/server/user"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"github.com/AnthonyThomahawk/E-Shop/server/product"
+	"github.com/AnthonyThomahawk/E-Shop/server/user"
 )
 
 func Setup(dataSourceName string) (*gorm.DB, error) {
@@ -27,6 +28,11 @@ func Setup(dataSourceName string) (*gorm.DB, error) {
 	}
 
 	err = db.AutoMigrate(&user.User{})
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.AutoMigrate(&product.UserProductCart{})
 	if err != nil {
 		return nil, err
 	}
