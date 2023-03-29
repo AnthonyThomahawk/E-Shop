@@ -12,11 +12,6 @@
     let notification = "";
     let notification_color = "black";
 
-    interface IUser {
-        Email: string;
-        Password: string;
-    }
-
     interface IUserAuth {
         Email: string;
         Token: string;
@@ -49,13 +44,8 @@
         if (blankFields.length == 0) {
             if (password.length >= 8) {
                 if (validateEmail(email)) {
-                    let User: IUser = {} as IUser;
-
-                    User.Email = email;
-                    User.Password = password;
-
                     try {
-                        const res = await registerUser(User);
+                        const res = await registerUser(email, password);
 
                         UserAuth = {
                             Email : res.Email,

@@ -12,11 +12,6 @@
     let notification = "";
     let notification_color = "black";
 
-    interface IUser {
-        Email: string;
-        Password: string;
-    }
-
     interface IUserAuth {
         Email: string;
         Token: string;
@@ -41,13 +36,8 @@
         const blankFields = getBlankFields();
 
         if (blankFields.length == 0) {
-            let User : IUser = {} as IUser;
-
-            User.Email = email;
-            User.Password = password;
-
             try {
-                const res = await loginUser(User);
+                const res = await loginUser(email, password);
 
                 UserAuth = {
                     Email : res.Email,

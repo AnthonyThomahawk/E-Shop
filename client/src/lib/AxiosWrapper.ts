@@ -16,6 +16,7 @@ const apiRequest = async (method: string, url: string, request?: {}) => {
             data: request,
             headers
         })
+
         return await Promise.resolve(res.data)
     } catch (err) {
         return await Promise.reject(err)

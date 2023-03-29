@@ -24,16 +24,16 @@
         <a href="/" style="color:#fff">home</a>
         <a href="/Categories" style="color:#fff">categories</a>
         <a href="/Products" style="color:#fff">products</a>
-        <a href="/about" style="color:#fff">about</a>
     </nav>
     {#if user === ""}
         <div style="padding-right: 55px; margin-left: auto;">
             <a href="/Login" style="color:#fff">login</a>
-            <a href="/Register" style="color:#fff">register</a>
+            <a href="/Register" style="padding-left:10px; color:#fff">register</a>
         </div>
     {:else}
         <div style="padding-right: 55px; margin-left: auto;">
-            <a href="/Account" style="color:#fff">my account</a>
+            <a href="/Cart" style="color:#fff">cart</a>
+            <a href="/Account" style="padding-left:10px; color:#fff">my account</a>
         </div>
     {/if}
 </header>
