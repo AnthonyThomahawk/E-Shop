@@ -3,13 +3,12 @@
     import {getLocalStorage} from "../lib/LocalStorage";
 
     let email = "";
-    let token = "";
 
     onMount(async () => {
         try {
             const data = getLocalStorage("UserData");
+
             email = data.Email;
-            token = data.Token;
         }
         catch (error) {
             email = "";

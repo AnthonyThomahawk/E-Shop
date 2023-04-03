@@ -48,7 +48,7 @@
             user = "";
         }
 
-        const res = await getProductDetails(targetID);
+        const [res, hd] = await getProductDetails(targetID);
 
         product = {
             ID : res.ID,
@@ -78,7 +78,7 @@
     async function addToCart() {
         let cartItems: Array<ICartItem>;
 
-        const res = await getCart(1,10);
+        const [res,hd] = await getCart(1,10);
 
         cartItems = res.Items.map((item: any) => ({
             Product : item.Product,

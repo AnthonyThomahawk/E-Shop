@@ -20,7 +20,7 @@
     let products: Array<IProduct> = [];
 
     async function getProductList() {
-        const res = await getProducts(pageNumber, 5);
+        const [res, hd] = await getProducts(pageNumber, 5);
 
         products = res.map((item: any) => ({
             ID : item.ID,

@@ -37,11 +37,13 @@
 
         if (blankFields.length == 0) {
             try {
-                const res = await loginUser(email, password);
+                const [res, hd] = await loginUser(email, password);
+
+                const bearerToken = hd.get('Authorization');
 
                 UserAuth = {
-                    Email : res.Email,
-                    Token : res.Token
+                    Email : email,
+                    Token : bearerToken.replace('Bearer ', '')
                 }
 
                 setLocalStorage("UserData",

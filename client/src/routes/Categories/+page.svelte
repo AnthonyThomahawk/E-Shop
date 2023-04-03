@@ -13,7 +13,7 @@
     let categories : Array<ICategory> = [];
 
     async function getCategories() {
-        const res = await getProductCategories();
+        const [res, hd] = await getProductCategories();
 
         categories = res.map((item : any) => ({
             ID: item.ID,

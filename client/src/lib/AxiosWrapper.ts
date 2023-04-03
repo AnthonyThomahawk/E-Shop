@@ -1,25 +1,41 @@
-import axios, { type AxiosInstance } from 'axios'
+import axios, {type AxiosInstance} from 'axios'
+import {getLocalStorage} from "./LocalStorage";
+
+interface IUserAuth {
+    Email: string;
+    Token: string;
+}
+
 
 const axiosAPI: AxiosInstance = axios.create({
     baseURL: 'http://localhost:5000'
 })
 
 const apiRequest = async (method: string, url: string, request?: {}) => {
-    const headers = {
-        authorization: ''
+    let userData = getLocalStorage("UserData");
+
+    if (userData == undefined) {
+        userData = {} as IUserAuth;
+        userData.Email = '';
+        userData.Token = '';
     }
+
+    if (request == undefined) {
+        request = '';
+    }
+
+    axiosAPI.defaults.headers.common['Authorization'] = 'Bearer ' + userData.Token;
 
     try {
         const res = await axiosAPI({
             method,
             url,
-            data: request,
-            headers
-        })
+            data: request
+        });
 
-        return await Promise.resolve(res.data)
+        return [await Promise.resolve(res.data), await res.headers];
     } catch (err) {
-        return await Promise.reject(err)
+        return await Promise.reject(err);
     }
 }
 
