@@ -39,9 +39,11 @@ func GenerateJWT(userID, roleID uint) (string, error) {
 
 func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		tokenString := r.Header.Get("Authorization")
+		if r.Method == "OPTIONS" { // IGNORE OPTIONS PREFLIGHT REQUEST!
+			return
+		}
 
-		fmt.Println(r.Header)
+		tokenString := r.Header.Get("Authorization")
 
 		if tokenString == "" {
 			w.WriteHeader(http.StatusUnauthorized)

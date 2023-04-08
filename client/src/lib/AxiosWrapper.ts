@@ -7,32 +7,6 @@ interface IUserAuth {
     Email: string;
     Token: string;
 }
-
-async function makeGetRequest(url: string, headers: Record<string, string>): Promise<any> {
-    return new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url);
-        Object.entries(headers).forEach(([key, value]) => {
-            xhr.setRequestHeader(key, value);
-        });
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    try {
-                        const responseJson = JSON.parse(xhr.responseText);
-                        resolve(responseJson);
-                    } catch (error) {
-                        reject(new Error(`Error parsing JSON response: ${error.message}`));
-                    }
-                } else {
-                    reject(new Error(`Error: ${xhr.statusText}`));
-                }
-            }
-        };
-        xhr.send();
-    });
-}
-
 const apiRequest = async (inMethod: string, inUrl: string, request?: {}) => {
     let userData = getLocalStorage("UserData");
 
@@ -55,7 +29,6 @@ const apiRequest = async (inMethod: string, inUrl: string, request?: {}) => {
             url: `${inUrl}`,
             data: request,
             headers: {
-                credentials: "include",
                 'Authorization': 'Bearer ' + tok,
             }
 
