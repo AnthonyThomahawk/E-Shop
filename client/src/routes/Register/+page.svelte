@@ -2,12 +2,14 @@
     import DynamicImage from "../../lib/DynamicImage.svelte";
     import MailIcon from "../../assets/mailicon.webp";
     import KeyIcon from "../../assets/keyicon.png";
-    import {setLocalStorage} from "../../lib/LocalStorage";
+    import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
     import {registerUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
 
     let email = "";
     let password = "";
+
+    let previousPath;
 
     let notification = "";
     let notification_color = "black";
@@ -44,12 +46,15 @@
         if (blankFields.length == 0) {
             if (password.length >= 8) {
                 if (validateEmail(email)) {
+                    previousPath = getLocalStorage('previousPath');
                     try {
-                        const res = await registerUser(email, password);
+                        const [res, hd] = await registerUser(email, password);
+
+                        const bearerToken = hd.get('Authorization');
 
                         UserAuth = {
-                            Email : res.Email,
-                            Token : res.Token
+                            Email : email,
+                            Token : bearerToken.replace('Bearer ', '')
                         }
 
                         setLocalStorage("UserData",
@@ -63,8 +68,11 @@
                         notification_color = "green";
 
                         await new Promise(resolve => setTimeout(resolve, 1000));
-                        await goto('/');
-                        location.reload();
+
+                        const oldheaderRefresh = getLocalStorage('refreshHeaderCount');
+                        setLocalStorage('refreshHeaderCount', oldheaderRefresh + 1);
+
+                        await goto(previousPath);
                     }
                     catch (error) {
                         notification = "Registration failed, e-mail already exists";

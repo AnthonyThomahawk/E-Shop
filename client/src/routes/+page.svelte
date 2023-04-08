@@ -1,10 +1,17 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {getLocalStorage} from "../lib/LocalStorage";
+    import {getLocalStorage, setLocalStorage} from "../lib/LocalStorage";
+    import {goto} from "$app/navigation";
+    import { page } from '$app/stores';
 
     let email = "";
+    let currentPath = "";
 
     onMount(async () => {
+        currentPath = $page.url.pathname;
+        setLocalStorage('previousPath', currentPath);
+        setLocalStorage('refreshHeaderCount', 0);
+
         try {
             const data = getLocalStorage("UserData");
 

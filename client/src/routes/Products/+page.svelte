@@ -1,6 +1,8 @@
 <script lang="ts">
     import ItemFrame from "./ItemFrame.svelte";
     import { getProducts } from "../../lib/Products";
+    import {page} from "$app/stores";
+    import {setLocalStorage} from "../../lib/LocalStorage";
 
     interface IProduct {
         ID: number;
@@ -16,10 +18,13 @@
 
     let pageNumber = 1;
     let pageChanges = 0;
+    let currentPath = "";
 
     let products: Array<IProduct> = [];
 
     async function getProductList() {
+        currentPath = $page.url.pathname;
+        setLocalStorage('previousPath', currentPath);
         const [res, hd] = await getProducts(pageNumber, 5);
 
         products = res.map((item: any) => ({

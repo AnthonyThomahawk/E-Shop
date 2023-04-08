@@ -6,7 +6,8 @@
     import ShoppingCart from "../Images/shoppingCart.png"
     // @ts-ignore
     import type {PageData} from './$types';
-    import {getLocalStorage} from "../../../lib/LocalStorage";
+    import {getLocalStorage, setLocalStorage} from "../../../lib/LocalStorage";
+    import {page} from "$app/stores";
     export let data: PageData;
 
     // @ts-ignore
@@ -37,9 +38,14 @@
     let product : IProduct = {} as IProduct;
     let imageSrc;
 
+    let currentPath = "";
+
     let user;
 
     onMount(async () => {
+        currentPath = $page.url.pathname;
+        setLocalStorage('previousPath', currentPath);
+
         try {
             const data = getLocalStorage("UserData");
             user = data.Email;
