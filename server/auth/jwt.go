@@ -40,6 +40,9 @@ func GenerateJWT(userID, roleID uint) (string, error) {
 func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		tokenString := r.Header.Get("Authorization")
+
+		fmt.Println(r.Header)
+
 		if tokenString == "" {
 			w.WriteHeader(http.StatusUnauthorized)
 			return
@@ -94,8 +97,8 @@ func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) htt
 
 func ExtractClaims(request *http.Request) (*Claims, error) {
 	if tokenString := request.Header.Get("Authorization"); tokenString != "" {
-		tokenString= strings.Split(tokenString, " ")[1]
-		token, err := jwt.ParseWithClaims(tokenString, &Claims{},func(token *jwt.Token) (any, error) {
+		tokenString = strings.Split(tokenString, " ")[1]
+		token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (any, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, fmt.Errorf("there's an error with the signing method")
 			}

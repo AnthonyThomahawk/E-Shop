@@ -14,6 +14,7 @@
             email = "";
         }
     });
+
 </script>
 
 {#if email === ""}
