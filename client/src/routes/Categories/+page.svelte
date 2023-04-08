@@ -2,6 +2,8 @@
     import CategoryFrame from "./CategoryFrame.svelte";
     import {getProductCategories} from "../../lib/Products";
     import {onMount} from "svelte";
+    import { page } from '$app/stores';
+    import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
 
     interface ICategory {
         ID: number;
@@ -11,8 +13,13 @@
     }
 
     let categories : Array<ICategory> = [];
+    let currentPath = "";
+    let previousPath;
 
     async function getCategories() {
+        currentPath = $page.url.pathname;
+        setLocalStorage('previousPath', currentPath);
+
         const [res, hd] = await getProductCategories();
 
         categories = res.map((item : any) => ({

@@ -2,15 +2,18 @@
     import DynamicImage from "../../lib/DynamicImage.svelte";
     import MailIcon from "../../assets/mailicon.webp";
     import KeyIcon from "../../assets/keyicon.png";
-    import {setLocalStorage} from "../../lib/LocalStorage";
+    import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
     import {loginUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
+    import {page} from "$app/stores";
 
     let email = "";
     let password = "";
 
     let notification = "";
     let notification_color = "black";
+
+    let previousPath;
 
     interface IUserAuth {
         Email: string;
@@ -36,7 +39,10 @@
         const blankFields = getBlankFields();
 
         if (blankFields.length == 0) {
+            previousPath = getLocalStorage('previousPath');
+
             try {
+
                 const [res, hd] = await loginUser(email, password);
 
                 const bearerToken = hd.get('Authorization');
@@ -57,10 +63,14 @@
                 notification_color = "green";
 
                 await new Promise(resolve => setTimeout(resolve, 1000));
-                await goto('/');
-                location.reload();
+
+                const oldheaderRefresh = getLocalStorage('refreshHeaderCount');
+                setLocalStorage('refreshHeaderCount', oldheaderRefresh + 1);
+
+                await goto(previousPath);
             }
             catch (error) {
+                console.log(error);
                 notification = "Login failed, wrong e-mail and/or password";
                 notification_color = "red";
             }

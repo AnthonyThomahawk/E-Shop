@@ -3,6 +3,8 @@
     import ItemFrame from "../../Products/ItemFrame.svelte";
     // @ts-ignore
     import type {PageData} from './$types';
+    import {page} from "$app/stores";
+    import {setLocalStorage} from "../../../lib/LocalStorage";
     export let data: PageData;
 
     // @ts-ignore
@@ -23,9 +25,14 @@
     let pageNumber = 1;
     let pageChanges = 0;
 
+    let currentPath;
+
     let products: Array<IProduct> = [];
 
     async function getProductList() {
+        currentPath = $page.url.pathname;
+        setLocalStorage('previousPath', currentPath);
+
         const [res, hd] = await getProductsByCategoryId(pageNumber, 5, CategoryID);
 
         products = res.map((item: any) => ({

@@ -207,6 +207,16 @@ func SetupCartRoutes(apiBasePath string, repo CartRepo) {
 	service := cartService{repo: &repo}
 	cartHandler := http.HandlerFunc(service.handleCart)
 	cartItemHandler := http.HandlerFunc(service.handleCartItem)
+
+	//http.Handle(
+	//	fmt.Sprintf("%s/%s", apiBasePath, CartPath),
+	//	cors.Middleware(cartHandler),
+	//)
+	//http.Handle(
+	//	fmt.Sprintf("%s/%s/", apiBasePath, CartPath),
+	//	cors.Middleware(cartItemHandler),
+	//)
+
 	http.Handle(
 		fmt.Sprintf("%s/%s", apiBasePath, CartPath),
 		cors.Middleware(auth.VerifyJWT(cartHandler)),
