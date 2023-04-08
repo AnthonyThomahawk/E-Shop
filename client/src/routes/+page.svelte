@@ -10,7 +10,15 @@
     onMount(async () => {
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
-        setLocalStorage('refreshHeaderCount', 0);
+
+        const oldheaderRefresh = getLocalStorage('refreshHeaderCount');
+
+        if (oldheaderRefresh == undefined) {
+            setLocalStorage('refreshHeaderCount', 0);
+        } else {
+            setLocalStorage('refreshHeaderCount', oldheaderRefresh + 1);
+        }
+
 
         try {
             const data = getLocalStorage("UserData");
