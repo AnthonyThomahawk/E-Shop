@@ -3,7 +3,7 @@
     import MailIcon from "../../assets/mailicon.webp";
     import KeyIcon from "../../assets/keyicon.png";
     import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
-    import {registerUser} from "../../lib/Auth";
+    import {loginUser, registerUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
 
     let email = "";
@@ -48,7 +48,9 @@
                 if (validateEmail(email)) {
                     previousPath = getLocalStorage('previousPath');
                     try {
-                        const [res, hd] = await registerUser(email, password);
+                        await registerUser(email, password);
+
+                        const [res, hd] = await loginUser(email, password);
 
                         const bearerToken = hd.get('Authorization');
 

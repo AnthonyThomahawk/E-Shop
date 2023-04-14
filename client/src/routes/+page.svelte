@@ -1,7 +1,6 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import {getLocalStorage, setLocalStorage} from "../lib/LocalStorage";
-    import {goto} from "$app/navigation";
     import { page } from '$app/stores';
 
     let email = "";
