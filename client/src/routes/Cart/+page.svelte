@@ -27,14 +27,19 @@
     let cartChangesCompleted = 0;
 
     async function getCartItems() {
-        const [res,hd] = await getCart(1,10);
+        try {
+            const [res,hd] = await getCart(1,10);
 
-        cartItems = res.Items.map((item: any) => ({
-            Product : item.Product,
-            Quantity : item.Quantity
-        }));
+            cartItems = res.Items.map((item: any) => ({
+                Product : item.Product,
+                Quantity : item.Quantity
+            }));
 
-        cartChangesCompleted++;
+            cartChangesCompleted++;
+        }
+        catch (error) {
+            console.log(error);
+        }
     }
 
     onMount(async () => {
@@ -78,19 +83,20 @@
 </script>
 
 {#if user !== ""}
-    <div style="align-items: center">
-        <h1>Total: {roundNumber(total, 2)} €</h1>
-    </div>
-    <div class="container">
-        <table>
-            <thead>
+    {#if total != 0}
+        <div style="align-items: center">
+            <h1>Total: {roundNumber(total, 2)} €</h1>
+        </div>
+        <div class="container">
+            <table>
+                <thead>
                 <tr>
                     <th>Product</th>
                     <th>Quantity</th>
                     <th>Price</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 {#key cartChangesCompleted}
                     {#each cartItems as item}
                         <tr>
@@ -106,9 +112,25 @@
                         </tr>
                     {/each}
                 {/key}
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+    {:else}
+        <h1>Your cart is empty!</h1>
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
+            <h2>You may add items to your cart from the</h2>
+            <div style="padding-left: 10px"></div>
+            <h2><a href="/Products">product page</a></h2>
+        </div>
+
+        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
+            <h2>Or navigate all products by category on</h2>
+            <div style="padding-left: 10px"></div>
+            <h2><a href="/Categories">categories page</a></h2>
+        </div>
+
+
+    {/if}
 {:else}
     <h1>You must be logged in to view your cart!</h1>
 {/if}

@@ -42,7 +42,6 @@
             previousPath = getLocalStorage('previousPath');
 
             try {
-
                 const [res, hd] = await loginUser(email, password);
 
                 const bearerToken = hd.get('Authorization');

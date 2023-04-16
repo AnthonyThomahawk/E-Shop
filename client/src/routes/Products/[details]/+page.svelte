@@ -150,7 +150,13 @@
                     </button>
                 </div>
                 <div style="padding-top: 30px;"></div>
-                <h2>{cartLabel}</h2>
+                <div style="display: flex; flex-direction: row">
+                    <h2>{cartLabel}</h2>
+                    <div style="padding-left: 10px"></div>
+                    {#if cartLabel !== ""}
+                        <h2><a href="/Cart">Go to cart</a></h2>
+                    {/if}
+                </div>
             {:else}
                 <h2>Log in to use the shopping cart!</h2>
             {/if}

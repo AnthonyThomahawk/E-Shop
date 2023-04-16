@@ -38,7 +38,7 @@ func GenerateJWT(userID, roleID uint) (string, error) {
 }
 
 func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) http.HandlerFunc {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "OPTIONS" { // IGNORE OPTIONS PREFLIGHT REQUEST!
 			return
 		}
@@ -77,7 +77,7 @@ func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) htt
 		}
 
 		endpointHandler(w, r)
-	})
+	}
 }
 
 // func extractClaims(_ http.ResponseWriter, request *http.Request) (string, error) {

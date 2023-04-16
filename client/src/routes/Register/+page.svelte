@@ -2,24 +2,14 @@
     import DynamicImage from "../../lib/DynamicImage.svelte";
     import MailIcon from "../../assets/mailicon.webp";
     import KeyIcon from "../../assets/keyicon.png";
-    import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
-    import {loginUser, registerUser} from "../../lib/Auth";
+    import {registerUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
 
     let email = "";
     let password = "";
 
-    let previousPath;
-
     let notification = "";
     let notification_color = "black";
-
-    interface IUserAuth {
-        Email: string;
-        Token: string;
-    }
-
-    let UserAuth: IUserAuth = {} as IUserAuth;
 
     function getBlankFields() {
         let blankFields : Array<string> = [];
@@ -46,35 +36,11 @@
         if (blankFields.length == 0) {
             if (password.length >= 8) {
                 if (validateEmail(email)) {
-                    previousPath = getLocalStorage('previousPath');
                     try {
                         await registerUser(email, password);
 
-                        const [res, hd] = await loginUser(email, password);
-
-                        const bearerToken = hd.get('Authorization');
-
-                        UserAuth = {
-                            Email : email,
-                            Token : bearerToken.replace('Bearer ', '')
-                        }
-
-                        setLocalStorage("UserData",
-                            {
-                                Email: UserAuth.Email,
-                                Token: UserAuth.Token
-                            }
-                        );
-
-                        notification = "E-mail : " + UserAuth.Email + " has been registered!";
+                        notification = "E-mail : " + email + " registered, now you can login using login page";
                         notification_color = "green";
-
-                        await new Promise(resolve => setTimeout(resolve, 1000));
-
-                        const oldheaderRefresh = getLocalStorage('refreshHeaderCount');
-                        setLocalStorage('refreshHeaderCount', oldheaderRefresh + 1);
-
-                        await goto(previousPath);
                     }
                     catch (error) {
                         notification = "Registration failed, e-mail already exists";
@@ -133,6 +99,9 @@
     <div style="padding-top:25px"></div>
 
     <label style="color: {notification_color}">{notification}</label>
+    {#if notification_color === "green"}
+        <label style="color: green"><a href="/Login">Go to user login page</a></label>
+    {/if}
 </div>
 
 
