@@ -2,7 +2,7 @@
     import DynamicImage from "../../lib/DynamicImage.svelte";
     import MailIcon from "../../assets/mailicon.webp";
     import KeyIcon from "../../assets/keyicon.png";
-    import {registerUser} from "../../lib/Auth";
+    import {loginUser, registerUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
 
     let email = "";

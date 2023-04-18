@@ -45,7 +45,6 @@ func (svc *registerService) register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if usr != nil {
-		log.Println(err)
 		http.Error(w, "there is already user with this email", http.StatusBadRequest)
 		return
 	}
