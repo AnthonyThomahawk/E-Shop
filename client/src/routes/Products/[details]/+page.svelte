@@ -2,7 +2,6 @@
     import {onMount} from "svelte";
     import {getProductDetails} from "../../../lib/Products";
     import {insertItem, updateItem, getCart} from "../../../lib/Cart";
-    import DynamicImage from "../../../lib/DynamicImage.svelte";
     import ShoppingCart from "../Images/shoppingCart.png"
     // @ts-ignore
     import type {PageData} from './$types';
@@ -49,7 +48,8 @@
     let cartLabel = "";
 
 
-    onMount(async () => {
+    onMount(async () =>
+    {
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
 
@@ -63,7 +63,7 @@
             user = "";
         }
 
-        const [res, hd] = await getProductDetails(targetID);
+        const [res] = await getProductDetails(targetID);
 
         product = {
             ID : res.ID,
@@ -88,7 +88,8 @@
             minQty = 0;
             itemCount = 0;
         }
-    });
+    }
+);
 
     function truncate (num, places) {
         return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
@@ -103,7 +104,7 @@
 
         let cartItems: Array<ICartItem>;
 
-        const [res,hd] = await getCart(1,10);
+        const [res] = await getCart(1,10);
 
         cartItems = res.Items.map((item: any) => ({
             Product : item.Product,
@@ -166,7 +167,7 @@
                         <div class="centered-div">
                             Add to cart
                             <div style="padding-right: 5px;"></div>
-                            <DynamicImage imageHeight=25 imageWidth=25 imagePath="{ShoppingCart}"/>
+                            <img src={ShoppingCart} alt="" style="border-radius: 5%; width:25px; height:25px; padding-bottom: 10px"/>
                         </div>
                     </button>
                 </div>

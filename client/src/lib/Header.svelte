@@ -1,9 +1,8 @@
 <script>
     import {onMount} from "svelte";
-    import Icon from '../assets/TeaIcon.png'
     import {getLocalStorage} from "../lib/LocalStorage";
 
-    export let title = "World of tea";
+    let title = "World of tea";
     let user;
 
     onMount(async () => {
@@ -18,7 +17,7 @@
 </script>
 
 <header>
-    <img src={Icon} alt="Main icon">
+    <img src="/assets/TeaIcon.png" alt="Main icon">
     <h1>{title}</h1>
     <nav style="padding-left:20px;">
         <a href="/" style="color:#fff">home</a>

@@ -1,11 +1,7 @@
 <script lang="ts">
-    import DynamicImage from "../../lib/DynamicImage.svelte";
-    import MailIcon from "../../assets/mailicon.webp";
-    import KeyIcon from "../../assets/keyicon.png";
     import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
     import {loginUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
-    import {page} from "$app/stores";
 
     let email = "";
     let password = "";
@@ -42,7 +38,7 @@
             previousPath = getLocalStorage('previousPath');
 
             try {
-                const [res, hd] = await loginUser(email, password);
+                const [, hd] = await loginUser(email, password);
 
                 const bearerToken = hd.get('Authorization');
 
@@ -98,7 +94,7 @@
         <label for="email-input">E-mail</label>
         <div>
             <div class="pad-div">
-                <DynamicImage imageHeight="35" imageWidth="35" imagePath="{MailIcon}"/>
+                <img src="/assets/mailicon.webp" alt="" style="border-radius: 5%; width:35px; height:35px; padding-bottom: 10px"/>
             </div>
             <input id="email-input" bind:value={email}>
         </div>
@@ -106,7 +102,7 @@
         <label for="password-input">Password</label>
         <div>
             <div class="pad-div">
-                <DynamicImage imageHeight="35" imageWidth="35" imagePath="{KeyIcon}"/>
+                <img src="/assets/keyicon.png" alt="" style="border-radius: 5%; width:35px; height:35px; padding-bottom: 10px"/>
             </div>
             <input id="password-input" type="password" bind:value={password}>
         </div>

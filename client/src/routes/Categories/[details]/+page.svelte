@@ -29,11 +29,12 @@
 
     let products: Array<IProduct> = [];
 
-    async function getProductList() {
+    async function getProductList()
+    {
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
 
-        const [res, hd] = await getProductsByCategoryId(pageNumber, 5, CategoryID);
+        const [res] = await getProductsByCategoryId(pageNumber, 5, CategoryID);
 
         products = res.map((item: any) => ({
             ID : item.ID,
@@ -49,6 +50,7 @@
 
         pageChanges += 1;
     }
+
 
     $: {
         pageNumber;
