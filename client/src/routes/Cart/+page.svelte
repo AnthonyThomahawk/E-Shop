@@ -83,7 +83,7 @@
 </script>
 
 {#if user !== ""}
-    {#if total != 0}
+    {#if total !== 0}
         <div style="align-items: center">
             <h1>Total: {roundNumber(total, 2)} €</h1>
         </div>
@@ -100,7 +100,7 @@
                 {#key cartChangesCompleted}
                     {#each cartItems as item}
                         <tr>
-                            <td>{item.Product.Label}</td>
+                            <td><a href="/Products/{item.Product.ID}">{item.Product.Label}</a></td>
                             <td>
                                 <div style="display: flex; flex-direction: row; align-items: center">
                                     <input class="qty" type="number" bind:value="{item.Quantity}" min=1 max={item.Product.Stock}>
