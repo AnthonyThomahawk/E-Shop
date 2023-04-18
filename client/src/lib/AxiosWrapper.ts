@@ -1,8 +1,8 @@
 import axios from 'axios'
 import {getLocalStorage} from "./LocalStorage";
 
-const clientURL = 'http://192.168.3.71';
-const clientPort = '5000';
+const serverURL = 'http://192.168.3.71';
+const serverPort = '5000';
 interface IUserAuth {
     Email: string;
     Token: string;
@@ -24,7 +24,7 @@ const apiRequest = async (inMethod: string, inUrl: string, request?: {}) => {
 
     try {
         const res = await axios({
-            baseURL: clientURL + ':' + clientPort,
+            baseURL: serverURL + ':' + serverPort,
             method: `${inMethod}`,
             url: `${inUrl}`,
             data: request,
