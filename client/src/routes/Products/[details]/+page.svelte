@@ -42,9 +42,18 @@
 
     let user;
 
+    let minQty;
+    let totalPrice;
+    let itemCount;
+    let totalItemCount;
+    let cartLabel = "";
+
+
     onMount(async () => {
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
+
+        totalItemCount = 0;
 
         try {
             const data = getLocalStorage("UserData");
@@ -71,17 +80,27 @@
         const img = new Image();
         img.src = product.ImageURL;
         imageSrc = img.src;
+
+        if (product.Stock != 0) {
+            minQty = 1;
+            itemCount = 1;
+        } else {
+            minQty = 0;
+            itemCount = 0;
+        }
     });
 
     function truncate (num, places) {
         return Math.trunc(num * Math.pow(10, places)) / Math.pow(10, places);
     }
 
-    let totalPrice = 0;
-    let itemCount = 0;
-    let cartLabel = "";
-
     async function addToCart() {
+        if (product.Stock == 0) {
+            cartLabel = "Item is out of stock! Please try again later.";
+            itemCount = 0;
+            return;
+        }
+
         let cartItems: Array<ICartItem>;
 
         const [res,hd] = await getCart(1,10);
@@ -109,8 +128,10 @@
             await insertItem(targetID, itemCount);
         }
 
-        cartLabel = itemCount + " items added to cart!";
-        itemCount = 0;
+        totalItemCount += itemCount;
+
+        cartLabel = totalItemCount + " items added to cart!";
+        itemCount = 1;
     }
 
     $: totalPrice = truncate(itemCount * product.Price, 1);
@@ -138,7 +159,7 @@
                 <div style="display: flex; flex-direction: row;">
                     <div style="display: flex; flex-direction: column;">
                         Quantity:
-                        <input type=number bind:value={itemCount} min=0 max={product.Stock}>
+                        <input type=number bind:value={itemCount} min={minQty} max={product.Stock}>
                     </div>
                     <div style="padding-right: 30px;"></div>
                     <button on:click={addToCart} style="width:130px;height:50px;">
