@@ -60,7 +60,7 @@
 <div style="display: flex; flex-direction: row; align-items: center">
     Current page :
     <div style="padding:5px"></div>
-    <input type=number bind:value={pageNumber} min=1 max=5>
+    <input type=number bind:value={pageNumber} min=1 max=1>
 </div>
 
 <div style="display:flex;">
