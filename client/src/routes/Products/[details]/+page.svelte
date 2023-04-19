@@ -55,25 +55,6 @@
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
 
-        const [r] = await getCart(1,10);
-
-        const cartItems = r.Items.map((item: any) => ({
-            Product : item.Product,
-            Quantity : item.Quantity
-        }));
-
-        totalItemCount = 0;
-        let itemFound = false;
-        let itemIndex = -1;
-
-        for (let i = 0; i < cartItems.length; i++) {
-            if (cartItems[i].Product.ID == targetID) {
-                itemFound = true;
-                itemIndex = i;
-                break;
-            }
-        }
-
         try {
             const data = getLocalStorage("UserData");
             user = data.Email;
@@ -96,20 +77,45 @@
             ImageURL: res.ImageURL,
         };
 
-        if (itemFound) {
-            totalItemCount = cartItems[itemIndex].Quantity;
-            if (totalItemCount == 1) {
-                cartLabel = `${totalItemCount} piece of ${product.Label} is in your cart`;
-            } else {
-                cartLabel = `${totalItemCount} pieces of ${product.Label} are in your cart`;
+        totalItemCount = 0;
+        let itemFound = false;
+        let itemIndex = -1;
+
+        try {
+            const [r] = await getCart(1,10);
+
+            const cartItems = r.Items.map((item: any) => ({
+                Product : item.Product,
+                Quantity : item.Quantity
+            }));
+
+            for (let i = 0; i < cartItems.length; i++) {
+                if (cartItems[i].Product.ID == targetID) {
+                    itemFound = true;
+                    itemIndex = i;
+                    break;
+                }
             }
-            showCartLabel = true;
-            showCartLink = true;
-        } else {
+
+            if (itemFound) {
+                totalItemCount = cartItems[itemIndex].Quantity;
+                if (totalItemCount == 1) {
+                    cartLabel = `${totalItemCount} piece of ${product.Label} is in your cart`;
+                } else {
+                    cartLabel = `${totalItemCount} pieces of ${product.Label} are in your cart`;
+                }
+                showCartLabel = true;
+                showCartLink = true;
+            } else {
+                totalItemCount = 0;
+                showCartLink = false;
+                showCartLabel = false;
+                cartLabel = "";
+            }
+        } catch (error) {
             totalItemCount = 0;
             showCartLink = false;
-            showCartLabel = false;
-            cartLabel = "";
+            showCartLabel = true;
         }
 
         const img = new Image();
