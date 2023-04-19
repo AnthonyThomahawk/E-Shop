@@ -46,6 +46,8 @@
     let itemCount;
     let totalItemCount;
     let cartLabel = "";
+    let showCartLink = false;
+    let showCartLabel = false;
 
 
     onMount(async () =>
@@ -53,7 +55,24 @@
         currentPath = $page.url.pathname;
         setLocalStorage('previousPath', currentPath);
 
+        const [r] = await getCart(1,10);
+
+        const cartItems = r.Items.map((item: any) => ({
+            Product : item.Product,
+            Quantity : item.Quantity
+        }));
+
         totalItemCount = 0;
+        let itemFound = false;
+        let itemIndex = -1;
+
+        for (let i = 0; i < cartItems.length; i++) {
+            if (cartItems[i].Product.ID == targetID) {
+                itemFound = true;
+                itemIndex = i;
+                break;
+            }
+        }
 
         try {
             const data = getLocalStorage("UserData");
@@ -77,6 +96,22 @@
             ImageURL: res.ImageURL,
         };
 
+        if (itemFound) {
+            totalItemCount = cartItems[itemIndex].Quantity;
+            if (totalItemCount == 1) {
+                cartLabel = `${totalItemCount} piece of ${product.Label} is in your cart`;
+            } else {
+                cartLabel = `${totalItemCount} pieces of ${product.Label} are in your cart`;
+            }
+            showCartLabel = true;
+            showCartLink = true;
+        } else {
+            totalItemCount = 0;
+            showCartLink = false;
+            showCartLabel = false;
+            cartLabel = "";
+        }
+
         const img = new Image();
         img.src = product.ImageURL;
         imageSrc = img.src;
@@ -99,6 +134,15 @@
         if (product.Stock == 0) {
             cartLabel = "Item is out of stock! Please try again later.";
             itemCount = 0;
+            showCartLabel = true;
+            showCartLink = false;
+            return;
+        }
+
+        if (totalItemCount + itemCount > product.Stock) {
+            cartLabel = "Your order exceeds our stock! Decrease the quantity of your order.";
+            showCartLabel = true;
+            showCartLink = false;
             return;
         }
 
@@ -112,11 +156,13 @@
         }));
 
         let itemFound = false;
+        let itemIndex = -1;
         let oldQty = 0;
 
         for (let i = 0; i < cartItems.length; i++) {
             if (cartItems[i].Product.ID == targetID) {
                 itemFound = true;
+                itemIndex = i;
                 oldQty = cartItems[i].Quantity;
                 break;
             }
@@ -131,7 +177,14 @@
 
         totalItemCount += itemCount;
 
-        cartLabel = totalItemCount + " items added to cart!";
+        if (totalItemCount == 1) {
+            cartLabel = `${totalItemCount} piece of ${product.Label} is in your cart`;
+        } else {
+            cartLabel = `${totalItemCount} pieces of ${product.Label} are in your cart`;
+        }
+
+        showCartLabel = true;
+        showCartLink = true;
         itemCount = 1;
     }
 
@@ -173,10 +226,12 @@
                 </div>
                 <div style="padding-top: 30px;"></div>
                 <div style="display: flex; flex-direction: row">
-                    <h2>{cartLabel}</h2>
-                    <div style="padding-left: 10px"></div>
-                    {#if cartLabel !== ""}
-                        <h2><a href="/Cart">Go to cart</a></h2>
+                    {#if showCartLabel}
+                        <h2>{cartLabel}</h2>
+                        <div style="padding-left: 10px"></div>
+                        {#if showCartLink}
+                            <h2><a href="/Cart">Go to cart</a></h2>
+                        {/if}
                     {/if}
                 </div>
             {:else}

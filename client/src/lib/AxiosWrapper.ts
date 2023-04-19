@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {getLocalStorage} from "./LocalStorage";
 
-const serverURL = 'http://192.168.3.71';
+const serverURL = 'http://localhost';
 const serverPort = '5000';
 interface IUserAuth {
     Email: string;
