@@ -5,6 +5,7 @@ export const getCart = async (page: number, pageSize: number) => {
         return await API.get(`/api/cart?page=${page}&page_size=${pageSize}`);
     } catch (error) {
         console.error(error);
+        throw error;
     }
 }
 
