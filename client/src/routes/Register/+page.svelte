@@ -1,5 +1,7 @@
 <script lang="ts">
     import {registerUser} from "../../lib/Auth";
+    import {onMount} from "svelte";
+    import {getLocalStorage} from "../../lib/LocalStorage";
 
     let email = "";
     let password = "";
@@ -63,6 +65,24 @@
             notification_color = "red";
         }
     }
+
+    onMount(async () => {
+        document.getElementById("email-input")
+            .addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    register();
+                }
+            });
+
+        document.getElementById("password-input")
+            .addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    register();
+                }
+            });
+    });
 </script>
 
 <div class="centered-div">

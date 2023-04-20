@@ -2,6 +2,7 @@
     import {getLocalStorage, setLocalStorage} from "../../lib/LocalStorage";
     import {loginUser} from "../../lib/Auth";
     import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
     let email = "";
     let password = "";
@@ -84,6 +85,24 @@
             notification_color = "red";
         }
     }
+
+    onMount(async () => {
+        document.getElementById("email-input")
+            .addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    login();
+                }
+            });
+
+        document.getElementById("password-input")
+            .addEventListener("keyup", function(event) {
+                event.preventDefault();
+                if (event.keyCode === 13) {
+                    login();
+                }
+            });
+    });
 </script>
 
 <div class="centered-div">
