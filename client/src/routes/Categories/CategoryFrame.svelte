@@ -15,7 +15,7 @@
     div {
         flex-direction: column;
         display:flex;
-        justify-content:center;
+        justify-content: initial;
         align-items: center;
         border: 2px solid black;
         border-radius:2%;
