@@ -44,7 +44,7 @@
         padding-right:10px;
     }
     header {
-        font-size: 165%;
+        font-size: 1.25vw;
         position: absolute;
         top: 0;
         left: 0;

@@ -58,12 +58,7 @@
     }
 </script>
 
-<h1>Products</h1>
-<div style="display: flex; flex-direction: row; align-items: center">
-    Current page :
-    <div style="padding:5px"></div>
-    <input type=number bind:value={pageNumber} min=1 max=1>
-</div>
+<h1 style="display: flex; justify-content: center">Products</h1>
 
 <div style="display:flex;">
     {#key pageChanges}

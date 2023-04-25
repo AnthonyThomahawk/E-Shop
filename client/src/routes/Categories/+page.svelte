@@ -33,7 +33,7 @@
     onMount(getCategories);
 </script>
 
-<h1>Product categories</h1>
+<h1 style="display: flex; justify-content: center">Product categories</h1>
 
 <div style="display: flex; align-items: center;justify-content: center">
     {#each categories as category}

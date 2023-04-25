@@ -110,7 +110,7 @@
 
     <div style="padding-top:25px"></div>
 
-    <button on:click={register} style="width: 200px; height: 55px;">Register user</button>
+    <button on:click={register} style="width: 8vw; height: 3vw;">Register user</button>
 
     <div style="padding-top:25px"></div>
 
@@ -146,7 +146,7 @@
         justify-content: space-between;
     }
     label {
-        font-size: 20px;
+        font-size: 1.2vw;
         padding-left: 35px;
     }
     input {

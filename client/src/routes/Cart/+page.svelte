@@ -185,7 +185,7 @@
         border-radius: 4px;
         border-bottom: 3px solid #ddd;
         box-sizing: border-box;
-        font-size: 16px;
+        font-size: 0.8vw;
     }
 
     .container {

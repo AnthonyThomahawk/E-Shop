@@ -3,7 +3,7 @@
     import {getProducts} from "../../lib/Products";
     import {page} from "$app/stores";
     import {setLocalStorage} from "../../lib/LocalStorage";
-
+    import Pagination from "../../lib/Pagination.svelte";
     interface IProduct {
         ID: number;
         CategoryID: number;
@@ -16,6 +16,7 @@
         ImageURL: string;
     }
 
+    let maxPages = 5;
     let pageNumber = 1;
     let pageChanges = 0;
     let currentPath = "";
@@ -43,20 +44,18 @@
         pageChanges += 1;
     }
 
-
     $: {
         pageNumber;
         getProductList();
     }
 </script>
 
-<h1>Products</h1>
-<div style="display: flex; flex-direction: row; align-items: center">
-    Current page :
+<h1 style="display: flex; justify-content: center">Products</h1>
+<div style="display: flex; flex-direction: row; align-items: center; justify-content: center">
     <div style="padding:5px"></div>
-    <input type=number bind:value={pageNumber} min=1 max=5>
+    <Pagination bind:currentPage={pageNumber} maxPages={maxPages}></Pagination>
 </div>
-
+<div style="padding:10px"></div>
 <div style="display:flex;">
     {#key pageChanges}
         {#each products as product}

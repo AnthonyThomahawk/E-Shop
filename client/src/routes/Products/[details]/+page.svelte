@@ -201,7 +201,7 @@
     <h1>{product.Label}</h1>
     <h2>{product.Description}</h2>
     <div style="display: flex; flex-direction: row; align-items: start; position: relative;">
-        <img src="{imageSrc}" height=400px width=400px alt="Product Image"/>
+        <img src="{imageSrc}" height=400px width=400px style="border-radius: 5%" alt="Product Image"/>
         <div style="padding-right: 50px;"></div>
         <div style="display: flex; flex-direction: column; position: relative;">
             <h3>{product.Characteristics}</h3>
@@ -222,7 +222,7 @@
                         <input type=number bind:value={itemCount} min={minQty} max={product.Stock}>
                     </div>
                     <div style="padding-right: 30px;"></div>
-                    <button on:click={addToCart} style="width:130px;height:50px;">
+                    <button on:click={addToCart} style="width:8vw;height:3vw;">
                         <div class="centered-div">
                             Add to cart
                             <div style="padding-right: 5px;"></div>
