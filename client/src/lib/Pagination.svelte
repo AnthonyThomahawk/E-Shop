@@ -28,7 +28,7 @@
 <div style="padding-left: 7px;"></div>
 {#each pageList as p}
     {#if p === currentPage}
-        <button on:click={() => updatePage(`${p}`)} style="width: 2vw; height:2vw; color:red; border-radius: 100%">{p}</button>
+        <button on:click={() => updatePage(`${p}`)} style="width: 2vw; height:2vw; font-weight: 800; color:darkred; border-radius: 100%">{p}</button>
     {:else}
         <button on:click={() => updatePage(`${p}`)} style="width: 2vw; height:2vw; color:black; border-radius: 100%">{p}</button>
     {/if}

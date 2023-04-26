@@ -20,8 +20,8 @@
         align-items: center;
         border: 2px solid black;
         border-radius:5%;
-        width:300px;
-        padding:15px;
-        white-space: nowrap;
+        min-width:15%;
+        min-height:15%;
+        padding:2%;
     }
 </style>

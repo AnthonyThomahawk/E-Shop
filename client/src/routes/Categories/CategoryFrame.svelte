@@ -16,13 +16,13 @@
         position: relative;
         flex-direction: column;
         display:flex;
-        justify-content: initial;
+        justify-content:center;
         align-items: center;
         border: 2px solid black;
-        border-radius:5%;
-        width:250px;
-        height:220px;
-        padding:10px;
+        border-radius: 5%;
+        padding: 2%;
+        min-width: 15%;
+        min-height: 250px;
         text-align: justify;
     }
 </style>

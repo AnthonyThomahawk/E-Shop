@@ -162,7 +162,7 @@
         justify-content: space-between;
     }
     label {
-        font-size: 1.2vw;
+        font-size: 125%;
         padding-left: 35px;
     }
     input {

@@ -56,11 +56,11 @@
     <h3>Powered by:</h3>
 </div>
 <div class="centered-div">
-    <img src="/assets/golang.png" height="100" width="200" alt="Golang">
+    <img src="/assets/golang.png" height="64" width="85" alt="Golang">
     <div style="padding-left: 50px"></div>
-    <img src="/assets/postgresql.png" height="150" width="128" alt="PostgreSQL">
+    <img src="/assets/postgresql.png" height="64" width="64" alt="PostgreSQL">
     <div style="padding-left: 50px"></div>
-    <img src="/assets/svelte.svg" height="150" width="128" alt="Sveltekit">
+    <img src="/assets/svelte.svg" height="64" width="64" alt="Sveltekit">
 </div>
 
 <style>
