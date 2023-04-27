@@ -1,0 +1,583 @@
+{
+	"info": {
+		"_postman_id": "474b386e-8551-4631-a31a-6c1378a9a752",
+		"name": "E-Shop unit tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "fetch categories",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response body not blank\", function() {",
+							"    pm.response.to.not.have.jsonBody(\"\");",
+							"});",
+							"pm.test(\"Response has proper format\", function() {",
+							"    pm.response.to.be.json;",
+							"    let jsonData = pm.response.json();",
+							"    for (let i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i]).to.have.property(\"ID\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Description\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Label\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Color\");",
+							"    }",
+							"    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/categories",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch products by category",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response body not blank\", function() {",
+							"    pm.response.to.not.have.jsonBody(\"\");",
+							"});",
+							"pm.test(\"Response has proper format\", function() {",
+							"    pm.response.to.be.json;",
+							"    let jsonData = pm.response.json();",
+							"    for (let i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i]).to.have.property(\"ID\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Description\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Label\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"CreatedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"UpdatedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"DeletedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"SKU\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Price\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Stock\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"ImageURL\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Characteristics\");",
+							"    }",
+							"});",
+							"pm.test(\"All products returned have the same category\", function() {",
+							"    let jsonData = pm.response.json();",
+							"    let cid = jsonData[0][\"CategoryID\"];",
+							"    for (let i = 1; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i][\"CategoryID\"]).to.eql(cid);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/products?page=1&page_size=10&category=3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "page_size",
+							"value": "10"
+						},
+						{
+							"key": "category",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response body not blank\", function() {",
+							"    pm.response.to.not.have.jsonBody(\"\");",
+							"});",
+							"pm.test(\"Response has proper format\", function() {",
+							"    pm.response.to.be.json;",
+							"    let jsonData = pm.response.json();",
+							"    for (let i = 0; i < jsonData.length; i++) {",
+							"        pm.expect(jsonData[i]).to.have.property(\"ID\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Description\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Label\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"CreatedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"UpdatedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"DeletedAt\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"SKU\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Price\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Stock\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"ImageURL\");",
+							"        pm.expect(jsonData[i]).to.have.property(\"Characteristics\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/products?page=1&page_size=10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"products"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "page_size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch product details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response body not blank\", function() {",
+							"    pm.response.to.not.have.jsonBody(\"\");",
+							"});",
+							"pm.test(\"Response only has one object\", function() {",
+							"    pm.expect(pm.response.json()).to.be.an('object');",
+							"});",
+							"pm.test(\"Response has proper format\", function() {",
+							"    const jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"ID\");",
+							"    pm.expect(jsonData).to.have.property(\"Description\");",
+							"    pm.expect(jsonData).to.have.property(\"Label\");",
+							"    pm.expect(jsonData).to.have.property(\"CreatedAt\");",
+							"    pm.expect(jsonData).to.have.property(\"UpdatedAt\");",
+							"    pm.expect(jsonData).to.have.property(\"DeletedAt\");",
+							"    pm.expect(jsonData).to.have.property(\"SKU\");",
+							"    pm.expect(jsonData).to.have.property(\"Price\");",
+							"    pm.expect(jsonData).to.have.property(\"Stock\");",
+							"    pm.expect(jsonData).to.have.property(\"ImageURL\");",
+							"    pm.expect(jsonData).to.have.property(\"Characteristics\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/products/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be empty\", function () {",
+							"    pm.response.to.not.be.withBody;",
+							"});",
+							"pm.test(\"Authorization header is exposed\", function() {",
+							"    pm.response.to.have.header(\"Access-Control-Expose-Headers\");",
+							"    pm.response.to.be.header(\"Access-Control-Expose-Headers\", \"Authorization\");",
+							"});",
+							"pm.test(\"Authorization token received\", function() {",
+							"    pm.response.to.have.header(\"Authorization\");",
+							"    let authHeader = pm.response.headers.get('Authorization');",
+							"    pm.expect(authHeader).to.contain(\"Bearer\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"jamesx@gmail.com\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response should be empty\", function () {",
+							"    pm.response.to.not.be.withBody;",
+							"});",
+							"pm.test(\"Authorization header is exposed\", function() {",
+							"    pm.response.to.have.header(\"Access-Control-Expose-Headers\");",
+							"    pm.response.to.be.header(\"Access-Control-Expose-Headers\", \"Authorization\");",
+							"});",
+							"pm.test(\"Authorization token received\", function() {",
+							"    pm.response.to.have.header(\"Authorization\");",
+							"    let authHeader = pm.response.headers.get('Authorization');",
+							"    pm.expect(authHeader).to.contain(\"Bearer\");",
+							"});",
+							"pm.test(\"Email is original (does not already exist)\", function() {",
+							"    pm.expect(pm.response.text()).to.not.contain(\"there is already user with this email\");",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"kalinixtaki31@gmail.com\",\n    \"password\": \"12345678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:5000/api/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch cart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Is authorized\", function() {",
+							"    pm.response.to.not.have.status(401);",
+							"});",
+							"pm.test(\"Response has proper format\", function() {",
+							"    let jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property(\"Items\");",
+							"    let cartItems = jsonData[\"Items\"];",
+							"    for (let i = 0; i < cartItems.length; i++) {",
+							"        console.log(\"Item name: \" + cartItems[i][\"Product\"][\"Label\"] + \"  Qty : \" + cartItems[i][\"Quantity\"]);",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjUsIlJvbGVJRCI6MiwiZXhwIjoxNjgyNTU2OTA2LCJpYXQiOjE2ODI1NTU3MDZ9.gD16-A1NZMbt8d3fRa5u7Oljl4g07PCWg1WAMsfdDQA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/cart?page=1&page_size=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cart"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "page_size",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add cart item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Is authorized\", function() {",
+							"    pm.response.to.not.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjUsIlJvbGVJRCI6MiwiZXhwIjoxNjgyNTU1NTc4LCJpYXQiOjE2ODI1NTQzNzh9.WqQx7cbazIkV3FfzebzwbmZBOSkJNy8hYpVwlanOvjM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"ProductId\": 6,\n    \"Quantity\":3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update cart item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Is authorized\", function() {",
+							"    pm.response.to.not.have.status(401);",
+							"});",
+							"pm.test(\"Item exists in cart\", function() {",
+							"    pm.response.to.not.have.status(404);",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjUsIlJvbGVJRCI6MiwiZXhwIjoxNjgyNTU1NTc4LCJpYXQiOjE2ODI1NTQzNzh9.WqQx7cbazIkV3FfzebzwbmZBOSkJNy8hYpVwlanOvjM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Quantity\":11\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cart/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cart",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete cart item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status 200 OK\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Is authorized\", function() {",
+							"    pm.response.to.not.have.status(401);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOjUsIlJvbGVJRCI6MiwiZXhwIjoxNjgyNTU2OTA2LCJpYXQiOjE2ODI1NTU3MDZ9.gD16-A1NZMbt8d3fRa5u7Oljl4g07PCWg1WAMsfdDQA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/api/cart/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cart",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
