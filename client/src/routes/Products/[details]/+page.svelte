@@ -129,6 +129,14 @@
             minQty = 0;
             itemCount = 0;
         }
+
+        if (product.Stock == 0) {
+            cartLabel = "Item is out of stock! Please try again later.";
+            itemCount = 0;
+            showCartLabel = true;
+            showCartLink = false;
+            return;
+        }
     }
 );
 
@@ -137,14 +145,6 @@
     }
 
     async function addToCart() {
-        if (product.Stock == 0) {
-            cartLabel = "Item is out of stock! Please try again later.";
-            itemCount = 0;
-            showCartLabel = true;
-            showCartLink = false;
-            return;
-        }
-
         if (totalItemCount + itemCount > product.Stock) {
             cartLabel = "Your order exceeds our stock! Decrease the quantity of your order.";
             showCartLabel = true;
@@ -222,13 +222,23 @@
                         <input type=number bind:value={itemCount} min={minQty} max={product.Stock}>
                     </div>
                     <div style="padding-right: 30px;"></div>
-                    <button on:click={addToCart} style="width:8vw;height:3vw;">
-                        <div class="centered-div">
-                            Add to cart
-                            <div style="padding-right: 5px;"></div>
-                            <img src={ShoppingCart} alt="" style="border-radius: 5%; width:25px; height:25px; padding-bottom: 10px"/>
-                        </div>
-                    </button>
+                    {#if product.Stock === 0}
+                        <button disabled on:click={addToCart} style="width:8vw;height:3vw;">
+                            <div class="centered-div">
+                                Add to cart
+                                <div style="padding-right: 5px;"></div>
+                                <img src={ShoppingCart} alt="" style="border-radius: 5%; width:25px; height:25px; padding-bottom: 10px"/>
+                            </div>
+                        </button>
+                    {:else}
+                        <button on:click={addToCart} style="width:8vw;height:3vw;">
+                            <div class="centered-div">
+                                Add to cart
+                                <div style="padding-right: 5px;"></div>
+                                <img src={ShoppingCart} alt="" style="border-radius: 5%; width:25px; height:25px; padding-bottom: 10px"/>
+                            </div>
+                        </button>
+                    {/if}
                 </div>
                 <div style="padding-top: 30px;"></div>
                 <div style="display: flex; flex-direction: row">
