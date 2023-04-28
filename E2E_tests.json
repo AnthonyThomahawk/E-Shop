@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "474b386e-8551-4631-a31a-6c1378a9a752",
-		"name": "E-Shop unit tests",
+		"name": "E-Shop E2E tests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
