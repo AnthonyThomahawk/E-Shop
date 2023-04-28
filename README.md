@@ -1,2 +1,2 @@
 # E-Shop
-Work in progress.
+Documentation will be added soon.
