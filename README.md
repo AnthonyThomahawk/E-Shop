@@ -14,7 +14,12 @@ http://worldoftea.sytes.net/
 ## IMPORTANT NOTES:
 * View the application **using a modern web browser on PC**. The application is not yet optimized for mobile devices.
 * Do not **panic** if you enter any **real passwords** on it; The application uses JWT authentication and all passwords are hashed using SHA-256, so no password is visible in plain text form.
-# Set up and run (without Docker)
+# Set up and run (with Docker, Recommended)
+For your linux distribution of choice, install docker then, in the project root directory run the command :
+``
+docker compose up
+``
+# Set up and run (without Docker, Not recommended)
 The following instructions will help you set up and run this application on your own machine, without docker.<br>
 The instructions are meant for arch-based and debian-based linux distributions.
 ## Step 1. Installing required packages
@@ -88,15 +93,18 @@ To do so in postgreSQL , you must first log in to the postgres user :<br>
 ``
 sudo -u postgres psql
 ``<br>
-Then, you must create a database called "eshop" : <br>
+Then, you must create a database for the application, name it whatever you like, for this example we will use "eshop" : <br>
 ``
 CREATE DATABASE eshop;
 ``<br>
 <br>
-After you create the database, edit the config.json file found in the <strong>E-Shop/server/</strong> folder to include the credentials to your database server, aswell as the database name ("eshop").
-<br> If you cloned this repo and have the default file, change user from "yourusername" to "postgres" and password from "yourpassword" to the one you entered when setting up PostgreSQL.
+After you create the database and the user, you must substitute the database name, database username, and database password, aswell as the secret key for the encryption of credentials in the file "SetupDBvars.sh" found in "/Eshop/server", so the server can access these variables.
 ## Step 3. Running server & client
 ### Running the server
+Before running the server, set up the database vars from the previous step using the script "SetupDBvars.sh" : <br>
+``
+source SetupDBvars.sh
+``<br>
 To run the server, go to the E-Shop/server/ directory and type:<br>
 For arch-based distros : <br>
 ``
@@ -120,6 +128,3 @@ npm run preview
 <br><br>
 You now should have the app fully functioning, and ready to use by navigating to<br>
 http://localhost:4173 on any modern web browser.
- 
-# Set up and run (with Docker)
-To be added soon.
