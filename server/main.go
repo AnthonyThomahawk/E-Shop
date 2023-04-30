@@ -1,12 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
 	"github.com/AnthonyThomahawk/E-Shop/server/auth"
-	"github.com/AnthonyThomahawk/E-Shop/server/config"
 	"github.com/AnthonyThomahawk/E-Shop/server/database"
 	"github.com/AnthonyThomahawk/E-Shop/server/product"
 )
@@ -14,12 +12,12 @@ import (
 const BasePath = "/api"
 
 func main() {
-	cfg, err := config.Import()
+	db, err := database.Setup()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	db, err := database.Setup(cfg.DB.DataSourceName)
+	err = auth.SetupAuth()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,6 +35,6 @@ func main() {
 	auth.SetupLoginRoutes(BasePath, userRepo)
 	auth.SetupRegisterRoutes(BasePath, userRepo)
 
-	fmt.Println("Listening to 5000")
+	log.Println("Listening to 5000")
 	log.Fatal(http.ListenAndServe(":5000", nil))
 }

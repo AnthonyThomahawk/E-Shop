@@ -1,20 +1,31 @@
 package auth
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var secretKey = []byte("secretyoushouldhide")
+var secretKey []byte
 
 type Claims struct {
-	UserID uint //`json:"UserId"`
-	RoleID uint //`json:"RoleId"`
+	UserID uint
+	RoleID uint
 	jwt.RegisteredClaims
+}
+
+func SetupAuth() error {
+	if sk, found := os.LookupEnv("AUTH_SECRET_KEY"); found {
+		secretKey = []byte(sk)
+		return nil
+	}
+
+	return errors.New("AUTH_SECRET_KEY not provided")
 }
 
 func GenerateJWT(userID, roleID uint) (string, error) {
@@ -26,7 +37,7 @@ func GenerateJWT(userID, roleID uint) (string, error) {
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
-	//SigningMethodEdDSA didn't work
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
 	tokenString, err := token.SignedString(secretKey)
@@ -39,7 +50,8 @@ func GenerateJWT(userID, roleID uint) (string, error) {
 
 func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method == "OPTIONS" { // IGNORE OPTIONS PREFLIGHT REQUEST!
+		// Ignoring OPTION preflight request
+		if r.Method == http.MethodOptions {
 			return
 		}
 
@@ -80,32 +92,19 @@ func VerifyJWT(endpointHandler func(w http.ResponseWriter, r *http.Request)) htt
 	}
 }
 
-// func extractClaims(_ http.ResponseWriter, request *http.Request) (string, error) {
-// 	if request.Header["Token"] != nil {
-// 		tokenString := request.Header["Token"][0]
-// 		token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-//
-// 			if _, ok := token.Method.(*jwt.SigningMethodECDSA); !ok {
-// 				return nil, fmt.Errorf("there's an error with the signing method")
-// 			}
-// 			return secretKey, nil
-// 		})
-//
-// 		if err != nil {
-// 			return "Error Parsing Token: ", err
-// 		}
-// 	}
-// }
-
 func ExtractClaims(request *http.Request) (*Claims, error) {
 	if tokenString := request.Header.Get("Authorization"); tokenString != "" {
 		tokenString = strings.Split(tokenString, " ")[1]
-		token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(token *jwt.Token) (any, error) {
-			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-				return nil, fmt.Errorf("there's an error with the signing method")
-			}
-			return secretKey, nil
-		})
+		token, err := jwt.ParseWithClaims(
+			tokenString,
+			&Claims{},
+			func(token *jwt.Token) (any, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, fmt.Errorf("there's an error with the signing method")
+				}
+				return secretKey, nil
+			},
+		)
 		if err != nil {
 			return nil, err
 		}

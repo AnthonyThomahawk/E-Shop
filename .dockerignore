@@ -1,0 +1,27 @@
+# Ignore editor and IDE files
+.vscode/
+.idea/
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore node_modules directories
+**/node_modules/
+
+# Ignore logs and temporary files
+*.log
+*.tmp
+
+# Ignore version control files
+.git/
+.svn/
+.hg/
+
+# Ignore package-lock.json for npm-based projects
+**/package-lock.json
+
+# Ignore other build artifacts
+build/
+dist/
+target/
