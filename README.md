@@ -6,7 +6,7 @@ World of tea e-shop is a CRUD app created from scratch without the use of extern
 * Svelte and Sveltekit for front-end
 
 The back-end is written without the use of any API libraries, and uses standard Go libraries to create and send the HTTP requests to the front end while having CORS. It also uses GORM to communicate with the database. 
-Lastly, user authentication is implemented using JSON web tokens and passwords are hashed using SHA-256 hasing algorithm.<br>
+Lastly, user authentication is implemented using JSON web tokens and passwords are hashed using SHA-256 hashing algorithm.<br>
 <br>The front-end is written in Svelte and uses Vite as its development server. It also uses the Axios HTTP client for receiving the HTTP requests from the API.
 # Live demo (release)
 The latest version of the app is currently hosted on: <br>
@@ -15,13 +15,16 @@ http://worldoftea.sytes.net/
 * View the application **using a modern web browser on PC**. The application is not yet optimized for mobile devices.
 * Do not **panic** if you enter any **real passwords** on it; The application uses JWT authentication and all passwords are hashed using SHA-256, so no password is visible in plain text form.
 # Set up and run (with Docker, Recommended)
-For your linux distribution of choice, install docker then, in the project root directory run the command :
+For your linux distribution of choice, install docker.<br>
+Then in the project root directory run the command : <br>
 ``
 docker compose up
-``
+``<br>
+<br> Now the e-shop should be fully functional and accessible at <br>
+http://localhost:5173
 # Set up and run (without Docker, Not recommended)
 The following instructions will help you set up and run this application on your own machine, without docker.<br>
-The instructions are meant for arch-based and debian-based linux distributions.
+The instructions are for arch-based and debian-based linux distributions.
 ## Step 1. Installing required packages
 ### 1) Go
 For arch-based distros : <br>
