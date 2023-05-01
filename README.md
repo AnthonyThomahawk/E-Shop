@@ -16,6 +16,8 @@ http://worldoftea.sytes.net/
 * Do not **panic** if you enter any **real passwords** on it; The application uses JWT authentication and all passwords are hashed using SHA-256, so no password is visible in plain text form.
 # Set up and run (with Docker, Recommended)
 For your linux distribution of choice, install docker.<br>
+You can find resources about installing docker from: <br>
+https://docs.docker.com/engine/install/ <br>
 Then in the project root directory run the command : <br>
 ``
 docker compose up
