@@ -24,6 +24,18 @@ docker compose up
 ``<br>
 <br> Now the e-shop should be fully functional and accessible at <br>
 http://localhost:5173
+## IMPORTANT NOTE
+In case the database is not working (you get a blank products page), stop all docker containers, and then run them manually with these 3 commands :
+<br>``
+docker start e-shop-database-1
+``<br>
+<br>``
+docker start e-shop-server-1
+``<br>
+<br>``
+docker start e-shop-client-1
+``<br> <br>
+After you start them, the app should function without any issues.
 # Set up and run (without Docker, Not recommended)
 The following instructions will help you set up and run this application on your own machine, without docker.<br>
 The instructions are for arch-based and debian-based linux distributions.
