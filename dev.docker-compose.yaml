@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  # client:
+  #   build: ./client
+  #   ports:
+  #     - target: 5173
+  #       published: 5173
+  #   depends_on:
+  #     - server
+  server:
+    build:
+      context: ./server
+      target: develop
+    ports:
+      - target: 5000
+        published: 5000
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_NAME: eshop
+      DB_USER: eshoprole
+      DB_PASSWORD: 12345
+      AUTH_SECRET_KEY: supersecretkey
+    depends_on:
+      - database
+  database:
+    image: "postgres:latest"
+    ports:
+      - target: 5432
+        published: 5432
+    environment:
+      POSTGRES_USER: eshoprole
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: eshop
