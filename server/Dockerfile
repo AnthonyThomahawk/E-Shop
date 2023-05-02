@@ -16,6 +16,6 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /eshop-server
 # final stage 
 FROM --platform=${BUILDPLATFORM} alpine as production
 
-COPY --from=develop /eshop-server /
+COPY --from=builder /eshop-server /
 
 CMD [ "/eshop-server" ]
