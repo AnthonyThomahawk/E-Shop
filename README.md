@@ -4,6 +4,7 @@ World of tea e-shop is a CRUD app created from scratch without the use of extern
 * Golang for back-end
 * PostgreSQL
 * Svelte and Sveltekit for front-end
+* Docker and Docker-Compose for containerization of the app
 
 The back-end is written without the use of any API libraries, and uses standard Go libraries to create and send the HTTP requests to the front end while having CORS. It also uses GORM to communicate with the database. 
 Lastly, user authentication is implemented using JSON web tokens and passwords are hashed using SHA-256 hashing algorithm.<br>
@@ -14,29 +15,38 @@ http://83.212.80.84:4173/
 ## IMPORTANT NOTES:
 * View the application **using a modern web browser on PC**. The application is not yet optimized for mobile devices.
 * Do not **panic** if you enter any **real passwords** on it; The application uses JWT authentication and all passwords are hashed using SHA-256, so no password is visible in plain text form.
-# Set up and run (with Docker, Recommended)
+# Dockerization details
+The app has been fully containerized with the use of Docker and docker-compose.<br>
+The docker compose YAML file consists of three containers that have the services for the application, below they are listed ordered by dependancy : <br>
+* **Database container** : This container contains the PostgreSQL database server, it uses the Postgres 15.3 docker image and has persistent storage at /var/lib/postgresql/data. The YAML file also contains configuration for the database with a pre-set password and username and port you can change.
+* **Server container** : The server is located in this container, it has a dependency on the database container and uses the golang alpine image. The YAML file also has configuration for the server, which is the username and password for the database, the secret encryption key for the user data and the server port. The go alpine image is used in this container.
+* **Client container** : This is the container for the client app, it depends on the server container. It has configuration for the port where the client application is served, the YAML docker compose file in this repo uses the port 5173, although you can change that if you so wish. Node 19 alpine image is used for this container.
+<br><br>
+Also, all the containers run in their own virtual network.
+# Set up and run with Docker (Recommended)
 For your linux distribution of choice, install docker.<br>
 You can find resources about installing docker from: <br>
 https://docs.docker.com/engine/install/ <br>
+Then, install docker compose. You can find resources for installing it at: <br>
+https://docs.docker.com/compose/install/ <br>
 Then in the project root directory run the command : <br>
 ``
 docker compose up
 ``<br>
-<br> Now the e-shop should be fully functional and accessible at <br>
-http://localhost:5173
+<br> Now the e-shop should be fully functional and accessible in its own virtual network. <br>
+**You can find the address needed to access the app from your web browser, by looking at the standard output of the client container like demonstrated below :**
+![vnet](vnet.png)
 ## IMPORTANT NOTE
-In case the database is not working (you get a blank products page), stop all docker containers, and then run them manually with these 3 commands :
+In case the database is not working (you get a blank products page), stop all containers with the command :
 <br>``
-docker start e-shop-database-1
+docker compose down
 ``<br>
-<br>``
-docker start e-shop-server-1
-``<br>
-<br>``
-docker start e-shop-client-1
-``<br> <br>
+And then re-start the containers again with the command : <br>
+``
+docker compose up
+`` <br>
 After you start them, the app should function without any issues.
-# Set up and run (without Docker, Not recommended)
+# Set up and run without Docker (Not recommended)
 The following instructions will help you set up and run this application on your own machine, without docker.<br>
 The instructions are for arch-based and debian-based linux distributions.
 ## Step 1. Installing required packages
