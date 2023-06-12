@@ -3,6 +3,7 @@ version: "3.9"
 services:
   client:
     build: ./client
+    restart: on-failure
     ports:
       - target: 5173
         published: 5173
@@ -10,6 +11,7 @@ services:
       - server
   server:
     build: ./server
+    restart: on-failure
     ports:
       - target: 5000
         published: 5000
@@ -24,6 +26,7 @@ services:
       - database
   database:
     image: "postgres:15.3"
+    restart: on-failure
     ports:
       - target: 5432
         published: 5432
