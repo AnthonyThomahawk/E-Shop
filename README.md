@@ -19,7 +19,7 @@ http://83.212.80.84:4173/
 The app has been fully containerized with the use of Docker and docker-compose.<br>
 The docker compose YAML file consists of three containers that have the services for the application, below they are listed ordered by dependancy : <br>
 * **Database container** : This container contains the PostgreSQL database server, it uses the Postgres 15.3 docker image and has persistent storage at /var/lib/postgresql/data. The YAML file also contains configuration for the database with a pre-set password and username and port you can change.
-* **Server container** : The server is located in this container, it has a dependency on the database container and uses the golang alpine image. The YAML file also has configuration for the server, which is the username and password for the database, the secret encryption key for the user data and the server port. The go alpine image is used in this container.
+* **Server container** : The server is located in this container, it has a dependency on the database container and uses the golang alpine image. The YAML file also has configuration for the server, which is the username and password for the database, the secret encryption key for the user data and the server port.
 * **Client container** : This is the container for the client app, it depends on the server container. It has configuration for the port where the client application is served, the YAML docker compose file in this repo uses the port 5173, although you can change that if you so wish. Node 19 alpine image is used for this container.
 <br><br>
 Also, all the containers run in their own virtual network.
@@ -31,7 +31,7 @@ Then, install docker compose. You can find resources for installing it at: <br>
 https://docs.docker.com/compose/install/ <br>
 Then in the project root directory run the command : <br>
 ``
-docker compose up
+sudo docker-compose up
 ``<br>
 <br> Now the e-shop should be fully functional and accessible in its own virtual network. <br>
 **You can find the address needed to access the app from your web browser, by looking at the standard output of the client container like demonstrated below :**
@@ -39,11 +39,11 @@ docker compose up
 ## IMPORTANT NOTE
 In case the database is not working (you get a blank products page), stop all containers with the command :
 <br>``
-docker compose down
+sudo docker-compose down
 ``<br>
 And then re-start the containers again with the command : <br>
 ``
-docker compose up
+sudo docker-compose up
 `` <br>
 After you start them, the app should function without any issues.
 # Set up and run without Docker (Not recommended)
