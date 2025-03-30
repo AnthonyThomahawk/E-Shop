@@ -9,9 +9,7 @@ World of tea e-shop is a CRUD app created from scratch without the use of extern
 The back-end is written without the use of any API libraries, and uses standard Go libraries to create and send the HTTP requests to the front end while having CORS. It also uses GORM to communicate with the database. 
 Lastly, user authentication is implemented using JSON web tokens and passwords are hashed using SHA-256 hashing algorithm.<br>
 <br>The front-end is written in Svelte and uses Vite as its development server. It also uses the Axios HTTP client for receiving the HTTP requests from the API.
-# Live demo (release)
-The latest version of the app is currently hosted on: <br>
-http://83.212.80.84:4173/
+
 ## IMPORTANT NOTES:
 * View the application **using a modern web browser on PC**. The application is not yet optimized for mobile devices.
 * Do not **panic** if you enter any **real passwords** on it; The application uses JWT authentication and all passwords are hashed using SHA-256, so no password is visible in plain text form.
